@@ -294,9 +294,9 @@
                     <h4>Soporte</h4>
                     <ul>
                         <h6>
-                            <li><a class="grey-text text-lighten-3" href="#">Preguntas frecuentes</a></li>
-                            <li><a class="grey-text text-lighten-3" href="#">Solucitud de ayuda</a></li>
-                            <li><a class="grey-text text-lighten-3" href="#">Sitio administrador</a></li>
+                            <li><a class="grey-text text-lighten-3" href="faq.html">Preguntas frecuentes</a></li>
+                            <li><a class="grey-text text-lighten-3" href="help.html">Solucitud de ayuda</a></li>
+                            <li><a class="grey-text text-lighten-3" href="loginAdmin.html">Sitio administrador</a></li>
                         </h6>
                     </ul>
                 </div>
@@ -324,13 +324,10 @@
         $(window).scroll(function() {
             if ($(window).scrollTop() >= 10) {
                 $("#header1").removeClass('headerLight').addClass('headerDark');
-            } else {
-                $("#header1").removeClass('headerDark').addClass('headerLight');
-            }
-            if ($(window).scrollTop() >= 150) {
                 $("#nav1").removeClass('nav-wrapper transparent').addClass('nav-wrapper blue darken-4');
                 $("#logonav").attr("src", "img/logo.png");
             } else {
+                $("#header1").removeClass('headerDark').addClass('headerLight');
                 $("#nav1").removeClass('nav-wrapper blue darken-4').addClass('nav-wrapper transparent');
                 $("#logonav").attr("src", "img/logoog.png");
             }

@@ -12,7 +12,7 @@
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <script src="https://kit.fontawesome.com/8c04a359e6.js" crossorigin="anonymous"></script>
-    <title>Cerrar sesión | UPSLP</title>
+    <title>Iniciar sesión | UPSLP</title>
     <style>
         .section {
             padding-top: 4vw;
@@ -44,7 +44,7 @@
         /* label underline focus color */
         .row .input-field input:focus {
             border-bottom: 1px solid #0d47a1 !important;
-            box-shadow: 0 1px 0 0 #0d47a1 !important
+            box-shadow: 0 1px 0 0 #0d47a1 !important;
         }
     </style>
 </head>
@@ -60,16 +60,16 @@
                         <i class="material-icons">menu</i>
                     </a>
                     <ul class="right hide-on-med-and-down">
-                        <li><a href="#">Eventos en línea</a></li>
+                        <!--<li><a href="#">Eventos en línea</a></li>
                         <li><a href="#">Eventos presenciales</a></li>
-                        <li><a class='dropdown-trigger btn' href="#" data-target='dropdown1' id="drop"><i class="material-icons">account_circle</i></a></li>
+                        <li><a class='dropdown-trigger btn' href="#" data-target='dropdown1' id="drop"><i class="material-icons">account_circle</i></a></li>!-->
                     </ul>
                     <ul class="sidenav" id="mobile-menu">
-                        <li><a href="#">Eventos en línea</a></li>
+                        <!--<li><a href="#">Eventos en línea</a></li>
                         <li><a href="#">Eventos presenciales</a></li>
                         <li><a href="#">Crear un evento</a></li>
                         <li><a href="#">Buscar un evento</a></li>
-                        <li><a href="login.php">Iniciar sesión</a></li>
+                        <li><a href="login.php">Iniciar sesión</a></li>!-->
                     </ul>
                 </div>
             </nav>
@@ -86,14 +86,33 @@
             <div class="col s12 m6 l6 offset-m3 offset-l3">
                 <div class="card">
                     <div class="card-content">
-                        <?php
-                        if(isset($_COOKIE['nombre']) && isset($_COOKIE['email'])){
-                            echo "<h3 class=\"center\"> ¡Hasta luego, {$_COOKIE['nombre']}! </h3><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>";
-                            setcookie('email', "", time() - 300); //elimina la cookie 
-                            setcookie('nombre', "", time() - 300);
-                        }
-                        ?>
-
+                        <span class="card-title center" style="margin-top: 2vw;"><i class="large material-icons">account_circle</i>
+                            <h3 style="margin-top: 0;">Iniciar sesión</h3>
+                        </span>
+                        <!--form-->
+                        <form action="login.php" method="POST">
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">email</i>
+                                    <input type="text" id="email" name="email" required>
+                                    <label for="email">Correo electrónico</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">password</i>
+                                    <input type="password" id="pass" name="pass" required>
+                                    <label for="pass">Contraseña</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12 center">
+                                    <button class="btn waves-effect  orange darken-2" type="submit">
+                                        Iniciar sesión <i class="material-icons right">login</i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

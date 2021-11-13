@@ -57,7 +57,7 @@
         }
 
         .switch label input[type=checkbox]:checked+.lever {
-            background-color: #0d47a1 !important;
+            background-color:  #1976d2 !important;
         }
 
         ul.dropdown-content.select-dropdown li span {
@@ -115,7 +115,7 @@
                             <div class="row">
                                 <div class="input-field col s12">
                                     <i class="material-icons prefix">email</i>
-                                    <input type="text" id="email" name="email" required>
+                                    <input type="email" id="email" name="email" required>
                                     <label for="email">Correo electrónico</label>
                                 </div>
                             </div>
@@ -157,28 +157,30 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col s12 center">
-                                    <h6>Datos requeridos sólo para alumnos de la UPSLP</h6>
+                            <div id="datosUPSLP">
+                                <div class="row">
+                                    <div class="col s12 center">
+                                        <h6>Datos requeridos sólo para alumnos de la UPSLP</h6>
+                                    </div>
+                                    <div class="input-field col s12">
+                                        <i class="material-icons prefix">tag</i>
+                                        <input type="number" id="matricula" name="matricula" required>
+                                        <label for="matricula">Matrícula</label>
+                                    </div>
                                 </div>
-                                <div class="input-field col s12">
-                                    <i class="material-icons prefix">tag</i>
-                                    <input type="text" id="matricula" name="matricula">
-                                    <label for="nombre">Matrícula</label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="input-field col s12">
-                                    <select id="carrera" name="carrera">
-                                        <option value="" disabled selected>Escoge tu carrera</option>
-                                        <option value="ITI">ITI</option>
-                                        <option value="ITEM">ITEM</option>
-                                        <option value="ITMA">ITMA</option>
-                                        <option value="ISTI">ISTI</option>
-                                        <option value="LAG">LAG</option>
-                                        <option value="LMKT">LMKT</option>
-                                    </select>
-                                    <label>Carrera</label>
+                                <div class="row">
+                                    <div class="input-field col s12" id="field-carrera">
+                                        <select id="carrera" name="carrera">
+                                            <option value="" disabled selected>Escoge tu carrera</option>
+                                            <option value="ITI">ITI</option>
+                                            <option value="ITEM">ITEM</option>
+                                            <option value="ITMA">ITMA</option>
+                                            <option value="ISTI">ISTI</option>
+                                            <option value="LAG">LAG</option>
+                                            <option value="LMKT">LMKT</option>
+                                        </select>
+                                        <label>Carrera</label>
+                                    </div>
                                 </div>
                             </div>
                             <div class="row">
@@ -222,9 +224,9 @@
                     <h4>Soporte</h4>
                     <ul>
                         <h6>
-                            <li><a class="grey-text text-lighten-3" href="#">Preguntas frecuentes</a></li>
-                            <li><a class="grey-text text-lighten-3" href="#">Solucitud de ayuda</a></li>
-                            <li><a class="grey-text text-lighten-3" href="#">Sitio administrador</a></li>
+                            <li><a class="grey-text text-lighten-3" href="faq.html">Preguntas frecuentes</a></li>
+                            <li><a class="grey-text text-lighten-3" href="help.html">Solucitud de ayuda</a></li>
+                            <li><a class="grey-text text-lighten-3" href="loginAdmin.html">Sitio administrador</a></li>
                         </h6>
                     </ul>
                 </div>
@@ -250,7 +252,24 @@
             $('.scrollspy').scrollSpy();
             $(".dropdown-trigger").dropdown();
             $('select').formSelect();
-
+            if(!$('#interno').is(':checked')){
+                $('#datosUPSLP').css("display","none");
+                $('#matricula').prop('required',false);
+                $('#carrera').prop('required',false);
+            }
+        });
+    </script>
+    <script>
+        $(document).on('change','#interno',function(e){
+            if($('#interno').is(':checked')){
+                $('#datosUPSLP').css("display","block");
+                $('#matricula').prop('required',true);
+                $('#carrera').prop('required',true);
+            }else{
+                $('#datosUPSLP').css("display","none");
+                $('#matricula').prop('required',false);
+                $('#carrera').prop('required',false);
+            }
         });
     </script>
     <script>

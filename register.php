@@ -88,27 +88,28 @@
                     <div class="card-content">
                         <?php
                             require("config.php");
-                            print_r($_POST);
-                            print_r($_COOKIE);
+                            //print_r($_POST);
+                            //print_r($_COOKIE);
                             $conexion = mysqli_connect($host, $dbUser, $dbPass, $database) or die("Error en la conexion: " . mysqli_connect_error());
                             if ($conexion) {
                                 $query = "";
                                 if(isset($_COOKIE['email'])){
                                     $mensaje = "Bienvenido, {$_COOKIE['nombre']}";
                                 }if (isset($_POST['email']) && $_POST['email'] != "" && isset($_POST['pass']) && $_POST['pass'] != "" && isset($_POST['nombre']) && $_POST['nombre'] != ""){
+                                    $pass = md5($_POST['pass']);
                                     if(isset($_POST['especial'])){  //si es especial no interno
-                                        $query = "INSERT INTO usuarios (email,pass,nombre,admin,interno,especial,matricula,carrera) VALUES ('{$_POST['email']}','{$_POST['pass']}','{$_POST['nombre']}',0,0,1,'','');";
+                                        $query = "INSERT INTO usuarios (email,pass,nombre,admin,interno,especial,matricula,carrera) VALUES ('{$_POST['email']}','{$pass}','{$_POST['nombre']}',0,0,1,'','');";
                                         if(isset($_POST['interno'])){//especial interno
-                                            $query = "INSERT INTO usuarios (email,pass,nombre,admin,interno,especial,matricula,carrera) VALUES ('{$_POST['email']}','{$_POST['pass']}','{$_POST['nombre']}',0,1,1,{$_POST['matricula']},'{$_POST['carrera']}');";
+                                            $query = "INSERT INTO usuarios (email,pass,nombre,admin,interno,especial,matricula,carrera) VALUES ('{$_POST['email']}','{$pass}','{$_POST['nombre']}',0,1,1,{$_POST['matricula']},'{$_POST['carrera']}');";
                                         }
                                     }else{  //si no es especial no interno
-                                        $query = "INSERT INTO usuarios (email,pass,nombre,admin,interno,especial,matricula,carrera) VALUES ('{$_POST['email']}','{$_POST['pass']}','{$_POST['nombre']}',0,0,0,'','');";
+                                        $query = "INSERT INTO usuarios (email,pass,nombre,admin,interno,especial,matricula,carrera) VALUES ('{$_POST['email']}','{$pass}','{$_POST['nombre']}',0,0,0,'','');";
                                         if(isset($_POST['interno'])){//no especial interno
-                                            $query = "INSERT INTO usuarios (email,pass,nombre,admin,interno,especial,matricula,carrera) VALUES ('{$_POST['email']}','{$_POST['pass']}','{$_POST['nombre']}',0,1,0,{$_POST['matricula']},'{$_POST['carrera']}');";
+                                            $query = "INSERT INTO usuarios (email,pass,nombre,admin,interno,especial,matricula,carrera) VALUES ('{$_POST['email']}','{$pass}','{$_POST['nombre']}',0,1,0,{$_POST['matricula']},'{$_POST['carrera']}');";
                                         }
                                     }
                                 }
-                                mysqli_select_db($conexion, $database) or  die("Problemas en la selec. de BDs");
+                                mysqli_select_db($conexion, $database) or  die("Problemas en la selec. de BDs<br><br><br><br><br><br>");
                                 if(mysqli_query($conexion, $query)){
                                     echo "<h3 class= \"center\">Usuario registrado con éxito<br></h3>";
                                     echo "<p class = \"flow-text\"
@@ -117,9 +118,13 @@
                                                 <li>nombre: {$_POST['nombre']}</li>
                                                 <li>contraseña: {$_POST['pass']}</li>
                                             </ul>
-                                            </p>";
-                                    setcookie('email', "", time() - 300); //elimina la cookie 
-                                    setcookie('nombre', "", time() - 300);
+                                            </p><br><br><br><br><br>";
+                                    setcookie('email', "{$_POST['email']}", time() + 300); //inicia sesión 
+                                    setcookie('nombre', "{$_POST['nombre']}", time() + 300);
+                                }else{
+                                    echo "<h3 class= \"center\">El usuario no fue registrado<br></h3>";
+                                    setcookie('email', "{$_POST['email']}", time() - 300); //elimina la cookie 
+                                    setcookie('nombre', "{$_POST['nombre']}", time() - 300);
                                 }
                                 mysqli_close($conexion);
                             }
@@ -150,9 +155,9 @@
                     <h4>Soporte</h4>
                     <ul>
                         <h6>
-                            <li><a class="grey-text text-lighten-3" href="#">Preguntas frecuentes</a></li>
-                            <li><a class="grey-text text-lighten-3" href="#">Solucitud de ayuda</a></li>
-                            <li><a class="grey-text text-lighten-3" href="#">Sitio administrador</a></li>
+                            <li><a class="grey-text text-lighten-3" href="faq.html">Preguntas frecuentes</a></li>
+                            <li><a class="grey-text text-lighten-3" href="help.html">Solucitud de ayuda</a></li>
+                            <li><a class="grey-text text-lighten-3" href="loginAdmin.html">Sitio administrador</a></li>
                         </h6>
                     </ul>
                 </div>

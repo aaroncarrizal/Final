@@ -95,7 +95,7 @@
                             if (isset($_POST['pass']) && $_POST['pass'] != "") {
                                 require("config.php");
                                 $email = $_POST['email'];
-                                $pass = $_POST['pass'];
+                                $pass = md5($_POST['pass']);
                                 $conexion = mysqli_connect($host, $dbUser, $dbPass, $database) or die("Error en la conexion: " . mysqli_connect_error());
                                 if ($conexion) {
                                     mysqli_select_db($conexion, $database) or  die("Problemas en la selec. de BDs");
@@ -119,12 +119,12 @@
                                     mysqli_close($conexion);
                                 }
                             } else {
-                                echo "<h3> Debes ingresar tu contraseña</h3>";
+                                echo "<h3> Debes ingresar tu contraseña</h3><br><br><br><br><br><br><br><br><br><br><br>";
                                 setcookie('email', "", time() - 300); //elimina la cookie 
                                 setcookie('nombre', "", time() - 300);
                             }
                         } else {
-                            echo "<h3> Debes ingresar tu correo electrónico</h3>";
+                            echo "<h3> Debes ingresar tu correo electrónico</h3><br><br><br><br><br><br><br><br><br><br>";
                             setcookie('email', "", time() - 300); //elimina la cookie 
                             setcookie('nombre', "", time() - 300);
                         }
@@ -156,9 +156,9 @@
                     <h4>Soporte</h4>
                     <ul>
                         <h6>
-                            <li><a class="grey-text text-lighten-3" href="#">Preguntas frecuentes</a></li>
-                            <li><a class="grey-text text-lighten-3" href="#">Solucitud de ayuda</a></li>
-                            <li><a class="grey-text text-lighten-3" href="#">Sitio administrador</a></li>
+                            <li><a class="grey-text text-lighten-3" href="faq.html">Preguntas frecuentes</a></li>
+                            <li><a class="grey-text text-lighten-3" href="help.html">Solucitud de ayuda</a></li>
+                            <li><a class="grey-text text-lighten-3" href="loginAdmin.html">Sitio administrador</a></li>
                         </h6>
                     </ul>
                 </div>
