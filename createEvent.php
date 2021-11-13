@@ -121,7 +121,6 @@
                             $totalReg = mysqli_num_rows($registros);
                             if ($totalReg == 1) {
                                 $interno = true;
-                            } else {
                             }
                         }
                         mysqli_close($conexion);
@@ -145,6 +144,7 @@
                         </div>
                       </div><br><br>";
                         echo "</div></div></div>";
+                        die();
                     } else {
                         //echo "interno";
                         $conexion = mysqli_connect($host, $dbUser, $dbPass, $database) or die("Error en la conexion: " . mysqli_connect_error());
@@ -179,16 +179,34 @@
                         </div>
                       </div><br><br>";
                         echo "</div></div></div>";
-                    }else{//es interno y coordinador
-                        echo"<script type=\"text/javascript\">\$(document).ready(function() {\$('#form').show();});</script>";
                     }
+                }else{
+                    header('Refresh: 2.5; URL=index.php');
+                        echo "<br><br><br><div class=\"col s12 m6 l6 offset-m3 offset-l3\">
+                            <div class=\"card\">
+                            <div class=\"card-content center\">
+                            <p class=\"flow-text\">Para poder crear eventos necesitas una cuenta de alumno UPSLP</p>";
+                        echo "<i class=\"large material-icons\">sentiment_very_dissatisfied</i><br><br><br>";
+                        echo "<div class=\"preloader-wrapper big active\">
+                        <div class=\"spinner-layer spinner-blue-only\">
+                          <div class=\"circle-clipper left\">
+                            <div class=\"circle\"></div>
+                          </div><div class=\"gap-patch\">
+                            <div class=\"circle\"></div>
+                          </div><div class=\"circle-clipper right\">
+                            <div class=\"circle\"></div>
+                          </div>
+                        </div>
+                      </div><br><br>";
+                        echo "</div></div></div>";
+                        die();
                 }
                 ?>
             </div>
         </div>
-        <div class="row" id="form">
+        <div class="row" id="form" style="display: <?php echo $coordinador ? 'block':'none'?>">
             <div class="col s12 m12 l12">
-                rehgd
+                
             </div>
         </div>
     </section>
@@ -237,7 +255,7 @@
             $('.tooltipped').tooltip();
             $('.scrollspy').scrollSpy();
             $(".dropdown-trigger").dropdown();
-            $('#form').hide();
+            //$('#form').hide();
         });
     </script>
     <script>

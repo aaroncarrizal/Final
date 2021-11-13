@@ -132,22 +132,23 @@
                                             $mensaje = "<h3 class=\"center\">¡Bienvenido, {$nombre}!";
                                         }else{
                                             setcookie('email',"",time()-300); //elimina la cookie 
-                                            echo "<h3>Usuario inválido</h3>";
+                                            $mensaje = "<h3 class=\"center\">Usuario inválido</h3>";
                                         }
                                     }
                                     mysqli_close($conexion);
                                 }
                             } else {
-                                echo "<h3> Debes ingresar tu contraseña</h3><br><br><br><br><br><br><br><br><br><br><br>";
+                                $mensaje = "<h3 class=\"center\"> Debes ingresar tu contraseña</h3>";
                                 setcookie('email', "", time() - 300); //elimina la cookie 
                                 setcookie('nombre', "", time() - 300);
                             }
                         } else {
-                            echo "<h3> Debes ingresar tu correo electrónico</h3><br><br><br><br><br><br><br><br><br><br>";
+                            $mensaje = "<h3 class=\"center\"> Debes ingresar tu correo electrónico</h3>";
                             setcookie('email', "", time() - 300); //elimina la cookie 
                             setcookie('nombre', "", time() - 300);
                         }
                         echo $mensaje;
+                        die;
                         ?>
 
                     </div>

@@ -84,7 +84,7 @@
         <ul class="sidenav grey lighten-2" id="mobile-menu">
             <li><a href="#">Eventos en línea</a></li>
             <li><a href="#">Eventos presenciales</a></li>
-            <li><a href="#">Crear un evento</a></li>
+            <li><a href="createEvent.php">Crear un evento</a></li>
             <li><a href="#">Buscar un evento</a></li>
             <?php
             if(isset($_COOKIE['email']) &&isset($_COOKIE['nombre'])){

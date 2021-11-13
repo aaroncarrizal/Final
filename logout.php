@@ -107,10 +107,12 @@
                     <div class="card-content">
                         <?php
                         if(isset($_COOKIE['nombre']) && isset($_COOKIE['email'])){
-                            echo "<h3 class=\"center\"> ¡Hasta luego, {$_COOKIE['nombre']}! </h3><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>";
+                            echo "<h3 class=\"center\"> ¡Hasta luego, {$_COOKIE['nombre']}! </h3>";
                             setcookie('email', "", time() - 300); //elimina la cookie 
                             setcookie('nombre', "", time() - 300);
+                            
                         }
+                        die();
                         ?>
 
                     </div>

@@ -146,6 +146,7 @@
                                     setcookie('nombre', "{$_POST['nombre']}", time() - 300);
                                 }
                                 mysqli_close($conexion);
+                                die();
                             }
                         ?>
 
