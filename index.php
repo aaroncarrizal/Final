@@ -105,7 +105,7 @@
             }
             ?>
             <li><a href="#" class="blue-text text-darken-4">Buscar evento</a></li>
-            <li><a href="#" class="blue-text text-darken-4">Crear evento</a></li>
+            <li><a href="createEvent.php" class="blue-text text-darken-4">Crear evento</a></li>
         </ul>
         <section class="container section scrollspy">
             <div class="row">
@@ -132,9 +132,6 @@
         <div class="row">
             <div class="col s12 m12 l12">
                 <h3>Descubre eventos en las instalaciones...</h3>
-                <?php
-                echo "por favor funciona";
-                ?>
             </div>
         </div>
         <div class="row">

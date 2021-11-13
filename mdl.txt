@@ -17,3 +17,29 @@ CREATE TABLE coordinadores(
     PRIMARY KEY(id),
     FOREIGN KEY (usuario) REFERENCES usuarios(email)
 );
+CREATE table lugares (
+    nombre VARCHAR(50) NOT NULL,
+    cupo INT NOT NULL,
+    techado BIT NOT NULL,
+    id INT AUTO_INCREMENT NOT NULL,
+    img VARCHAR(100),
+    PRIMARY KEY(id)
+);
+CREATE Table eventos(
+    coordinador INT,
+    lugar INT,
+    inicioEv DATETIME NOT NULL,
+    finEv DATETIME NOT NULL,
+    inicioReg DATETIME NOT NULL,
+    finReg DATETIME NOT NULL,
+    id INT AUTO_INCREMENT NOT NULL,
+    cupo INT NOT NULL,
+    info VARCHAR(1000) NOT NULL,
+    costo FLOAT not NULL,
+    tipo VARCHAR(50) NOT NULL,
+    especial BIT NOT NULL,
+    link VARCHAR(100),
+    FOREIGN KEY(coordinador) REFERENCES coordinadores(id),
+    FOREIGN KEY(lugar) REFERENCES lugares(id),
+    PRIMARY KEY (id)
+);

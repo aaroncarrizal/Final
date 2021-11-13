@@ -62,23 +62,42 @@
                     <ul class="right hide-on-med-and-down">
                         <li><a href="#">Eventos en línea</a></li>
                         <li><a href="#">Eventos presenciales</a></li>
-                        <li><a class='dropdown-trigger btn' href="#" data-target='dropdown1' id="drop"><i class="material-icons">account_circle</i></a></li>
-                    </ul>
-                    <ul class="sidenav" id="mobile-menu">
-                        <li><a href="#">Eventos en línea</a></li>
-                        <li><a href="#">Eventos presenciales</a></li>
-                        <li><a href="#">Crear un evento</a></li>
-                        <li><a href="#">Buscar un evento</a></li>
-                        <li><a href="login.php">Iniciar sesión</a></li>
+                        <li><a class='dropdown-trigger btn' href="#" data-target='dropdown1' id="drop"><i class="right material-icons">account_circle</i>
+                                <?php
+                                if (isset($_COOKIE['email']) && isset($_COOKIE['nombre'])) {
+                                    echo strtok($_COOKIE['nombre'], " ");
+                                }
+                                ?></a></li>
                     </ul>
                 </div>
             </nav>
         </div>
+        <!--sidenav-->
+        <ul class="sidenav grey lighten-2" id="mobile-menu">
+            <li><a href="#">Eventos en línea</a></li>
+            <li><a href="#">Eventos presenciales</a></li>
+            <li><a href="#">Crear un evento</a></li>
+            <li><a href="#">Buscar un evento</a></li>
+            <?php
+            if(isset($_COOKIE['email']) &&isset($_COOKIE['nombre'])){
+                    $nombre = strtok($_COOKIE['nombre'], " ");
+                    echo "<li><a href=\"logout.php\">Cerrar sesión de {$nombre}</a></li>";
+                }else{
+                    echo "<li><a href=\"login.html\">Iniciar sesión</a></li>";
+                }
+            ?>
+        </ul>
         <!--dropdown-->
         <ul id='dropdown1' class='dropdown-content'>
-            <li><a href="login.php" class="blue-text text-darken-4">Iniciar sesión</a></li>
+            <?php
+            if (isset($_COOKIE['email']) && isset($_COOKIE['nombre'])) {
+                echo "<li><a href=\"logout.php\" class=\"blue-text text-darken-4\">Cerrar sesión</a></li>";
+            } else {
+                echo "<li><a href=\"login.html\" class=\"blue-text text-darken-4\">Iniciar sesión</a></li>";
+            }
+            ?>
             <li><a href="#" class="blue-text text-darken-4">Buscar evento</a></li>
-            <li><a href="#" class="blue-text text-darken-4">Crear evento</a></li>
+            <li><a href="createEvent.php" class="blue-text text-darken-4">Crear evento</a></li>
         </ul>
     </header>
     <section class="container section scrollspy">

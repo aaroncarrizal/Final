@@ -12,7 +12,7 @@
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <script src="https://kit.fontawesome.com/8c04a359e6.js" crossorigin="anonymous"></script>
-    <title>Cerrar sesión | UPSLP</title>
+    <title>Crear Evento | UPSLP</title>
     <style>
         .section {
             padding-top: 4vw;
@@ -79,12 +79,12 @@
             <li><a href="#">Crear un evento</a></li>
             <li><a href="#">Buscar un evento</a></li>
             <?php
-            if(isset($_COOKIE['email']) &&isset($_COOKIE['nombre'])){
-                    $nombre = strtok($_COOKIE['nombre'], " ");
-                    echo "<li><a href=\"logout.php\">Cerrar sesión de {$nombre}</a></li>";
-                }else{
-                    echo "<li><a href=\"login.html\">Iniciar sesión</a></li>";
-                }
+            if (isset($_COOKIE['email']) && isset($_COOKIE['nombre'])) {
+                $nombre = strtok($_COOKIE['nombre'], " ");
+                echo "<li><a href=\"logout.php\">Cerrar sesión de {$nombre}</a></li>";
+            } else {
+                echo "<li><a href=\"login.html\">Iniciar sesión</a></li>";
+            }
             ?>
         </ul>
         <!--dropdown-->
@@ -102,21 +102,31 @@
     </header>
     <section class="container section scrollspy">
         <div class="row">
-            <div class="col s12 m6 l6 offset-m3 offset-l3">
-                <div class="card">
-                    <div class="card-content">
-                        <?php
-                        if(isset($_COOKIE['nombre']) && isset($_COOKIE['email'])){
-                            echo "<h3 class=\"center\"> ¡Hasta luego, {$_COOKIE['nombre']}! </h3><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>";
-                            setcookie('email', "", time() - 300); //elimina la cookie 
-                            setcookie('nombre', "", time() - 300);
+            <div class="col s12 m12 l12">
+            <?php
+                        //echo "aasdfadfasdf";
+                        if (isset($_COOKIE['email']) && isset($_POST['email']) && isset($_POST['phone']) && $_POST['email'] != '' && $_POST['phone'] != '') {
+                            require("config.php");
+                            $email = $_COOKIE['email'];
+                            $conexion = mysqli_connect($host, $dbUser, $dbPass, $database) or die("Error en la conexion: " . mysqli_connect_error());
+                            if ($conexion) {
+                                mysqli_select_db($conexion, $database) or  die("Problemas en la selec. de BDs");
+                                $query = "INSERT INTO coordinadores (usuario,emailContacto,telContacto) VALUES ('{$email}','{$_POST['email']}','{$_POST['phone']}');";
+                                if (mysqli_query($conexion, $query)) {
+                                    echo "Registrado como coordinador con éxito";
+                                }
+                                mysqli_close($conexion);
+                            }
+                        } else {
+                            //code to be executed  
+                            echo "no entra";
+                            print_r($_POST);
+                            print_r($_COOKIE);
                         }
                         ?>
-
-                    </div>
-                </div>
             </div>
         </div>
+    
     </section>
     <!-- footer -->
     <footer class="page-footer orange darken-2">
@@ -163,7 +173,7 @@
             $('.tooltipped').tooltip();
             $('.scrollspy').scrollSpy();
             $(".dropdown-trigger").dropdown();
-
+            $('#form').show();
         });
     </script>
     <script>

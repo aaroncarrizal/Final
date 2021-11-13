@@ -12,7 +12,7 @@
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <script src="https://kit.fontawesome.com/8c04a359e6.js" crossorigin="anonymous"></script>
-    <title>Cerrar sesión | UPSLP</title>
+    <title>Crear Evento | UPSLP</title>
     <style>
         .section {
             padding-top: 4vw;
@@ -79,12 +79,12 @@
             <li><a href="#">Crear un evento</a></li>
             <li><a href="#">Buscar un evento</a></li>
             <?php
-            if(isset($_COOKIE['email']) &&isset($_COOKIE['nombre'])){
-                    $nombre = strtok($_COOKIE['nombre'], " ");
-                    echo "<li><a href=\"logout.php\">Cerrar sesión de {$nombre}</a></li>";
-                }else{
-                    echo "<li><a href=\"login.html\">Iniciar sesión</a></li>";
-                }
+            if (isset($_COOKIE['email']) && isset($_COOKIE['nombre'])) {
+                $nombre = strtok($_COOKIE['nombre'], " ");
+                echo "<li><a href=\"logout.php\">Cerrar sesión de {$nombre}</a></li>";
+            } else {
+                echo "<li><a href=\"login.html\">Iniciar sesión</a></li>";
+            }
             ?>
         </ul>
         <!--dropdown-->
@@ -102,19 +102,93 @@
     </header>
     <section class="container section scrollspy">
         <div class="row">
-            <div class="col s12 m6 l6 offset-m3 offset-l3">
-                <div class="card">
-                    <div class="card-content">
-                        <?php
-                        if(isset($_COOKIE['nombre']) && isset($_COOKIE['email'])){
-                            echo "<h3 class=\"center\"> ¡Hasta luego, {$_COOKIE['nombre']}! </h3><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>";
-                            setcookie('email', "", time() - 300); //elimina la cookie 
-                            setcookie('nombre', "", time() - 300);
+            <div class="col s12 m12 l12">
+                <?php
+                if (isset($_COOKIE['email'])) {   //hay sesión iniciada?
+                    $email = $_COOKIE['email'];
+                    $nombre = $_COOKIE['nombre'];
+                    setcookie('email', $email, time() + 300); //5 mins
+                    setcookie('nombre', $nombre, time() + 300);
+                    $interno = false;
+                    $coordinador = false;
+                    require("config.php");
+                    $email = $_COOKIE['email'];
+                    $conexion = mysqli_connect($host, $dbUser, $dbPass, $database) or die("Error en la conexion: " . mysqli_connect_error());
+                    if ($conexion) {
+                        mysqli_select_db($conexion, $database) or  die("Problemas en la selec. de BDs");
+                        $query = "SELECT * FROM usuarios WHERE email = '$email' AND interno = true;";
+                        if ($registros = mysqli_query($conexion, $query)) {
+                            $totalReg = mysqli_num_rows($registros);
+                            if ($totalReg == 1) {
+                                $interno = true;
+                            } else {
+                            }
                         }
-                        ?>
-
-                    </div>
-                </div>
+                        mysqli_close($conexion);
+                    }
+                    if (!$interno) {
+                        header('Refresh: 2.5; URL=index.php');
+                        echo "<br><br><br><div class=\"col s12 m6 l6 offset-m3 offset-l3\">
+                            <div class=\"card\">
+                            <div class=\"card-content center\">
+                            <p class=\"flow-text\">Para poder crear eventos necesitas una cuenta de alumno UPSLP</p>";
+                        echo "<i class=\"large material-icons\">sentiment_very_dissatisfied</i><br><br><br>";
+                        echo "<div class=\"preloader-wrapper big active\">
+                        <div class=\"spinner-layer spinner-blue-only\">
+                          <div class=\"circle-clipper left\">
+                            <div class=\"circle\"></div>
+                          </div><div class=\"gap-patch\">
+                            <div class=\"circle\"></div>
+                          </div><div class=\"circle-clipper right\">
+                            <div class=\"circle\"></div>
+                          </div>
+                        </div>
+                      </div><br><br>";
+                        echo "</div></div></div>";
+                    } else {
+                        //echo "interno";
+                        $conexion = mysqli_connect($host, $dbUser, $dbPass, $database) or die("Error en la conexion: " . mysqli_connect_error());
+                        if ($conexion) {
+                            mysqli_select_db($conexion, $database) or  die("Problemas en la selec. de BDs");
+                            $query = "SELECT * FROM coordinadores WHERE usuario = '{$email}';";
+                            if ($registros = mysqli_query($conexion, $query)) {
+                                $totalReg = mysqli_num_rows($registros);
+                                if ($totalReg == 1) {
+                                    $coordinador = true;
+                                }
+                            }
+                        }
+                    }
+                    if(!$coordinador){//Redirigir a registro coordinador
+                        header('Refresh: 2.5; URL=registerCoordinador.php');
+                        echo "<br><br><br><div class=\"col s12 m6 l6 offset-m3 offset-l3\">
+                            <div class=\"card\">
+                            <div class=\"card-content center\">
+                            <p class=\"flow-text\">Para poder crear eventos necesitas Estar registrado como coordinador</p>";
+                        echo "<i class=\"large material-icons\">sentiment_very_dissatisfied</i><br><br>";
+                        echo "<p class=\"flow-text\">Redirigiendo...</p>";
+                        echo "<br><div class=\"preloader-wrapper big active\">
+                        <div class=\"spinner-layer spinner-blue-only\">
+                          <div class=\"circle-clipper left\">
+                            <div class=\"circle\"></div>
+                          </div><div class=\"gap-patch\">
+                            <div class=\"circle\"></div>
+                          </div><div class=\"circle-clipper right\">
+                            <div class=\"circle\"></div>
+                          </div>
+                        </div>
+                      </div><br><br>";
+                        echo "</div></div></div>";
+                    }else{//es interno y coordinador
+                        echo"<script type=\"text/javascript\">\$(document).ready(function() {\$('#form').show();});</script>";
+                    }
+                }
+                ?>
+            </div>
+        </div>
+        <div class="row" id="form">
+            <div class="col s12 m12 l12">
+                rehgd
             </div>
         </div>
     </section>
@@ -163,7 +237,7 @@
             $('.tooltipped').tooltip();
             $('.scrollspy').scrollSpy();
             $(".dropdown-trigger").dropdown();
-
+            $('#form').hide();
         });
     </script>
     <script>

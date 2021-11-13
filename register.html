@@ -57,7 +57,7 @@
         }
 
         .switch label input[type=checkbox]:checked+.lever {
-            background-color:  #1976d2 !important;
+            background-color: #1976d2 !important;
         }
 
         ul.dropdown-content.select-dropdown li span {
@@ -84,16 +84,16 @@
                         <li><a class='dropdown-trigger btn' href="#" data-target='dropdown1' id="drop"><i
                                     class="material-icons">account_circle</i></a></li>
                     </ul>
-                    <ul class="sidenav" id="mobile-menu">
-                        <li><a href="#">Eventos en línea</a></li>
-                        <li><a href="#">Eventos presenciales</a></li>
-                        <li><a href="#">Crear un evento</a></li>
-                        <li><a href="#">Buscar un evento</a></li>
-                        <li><a href="login.php">Iniciar sesión</a></li>
-                    </ul>
                 </div>
             </nav>
         </div>
+        <ul class="sidenav" id="mobile-menu">
+            <li><a href="#">Eventos en línea</a></li>
+            <li><a href="#">Eventos presenciales</a></li>
+            <li><a href="#">Crear un evento</a></li>
+            <li><a href="#">Buscar un evento</a></li>
+            <li><a href="login.php">Iniciar sesión</a></li>
+        </ul>
         <!--dropdown-->
         <ul id='dropdown1' class='dropdown-content'>
             <li><a href="login.php" class="blue-text text-darken-4">Iniciar sesión</a></li>
@@ -252,23 +252,23 @@
             $('.scrollspy').scrollSpy();
             $(".dropdown-trigger").dropdown();
             $('select').formSelect();
-            if(!$('#interno').is(':checked')){
-                $('#datosUPSLP').css("display","none");
-                $('#matricula').prop('required',false);
-                $('#carrera').prop('required',false);
+            if (!$('#interno').is(':checked')) {
+                $('#datosUPSLP').css("display", "none");
+                $('#matricula').prop('required', false);
+                $('#carrera').prop('required', false);
             }
         });
     </script>
     <script>
-        $(document).on('change','#interno',function(e){
-            if($('#interno').is(':checked')){
-                $('#datosUPSLP').css("display","block");
-                $('#matricula').prop('required',true);
-                $('#carrera').prop('required',true);
-            }else{
-                $('#datosUPSLP').css("display","none");
-                $('#matricula').prop('required',false);
-                $('#carrera').prop('required',false);
+        $(document).on('change', '#interno', function (e) {
+            if ($('#interno').is(':checked')) {
+                $('#datosUPSLP').css("display", "block");
+                $('#matricula').prop('required', true);
+                $('#carrera').prop('required', true);
+            } else {
+                $('#datosUPSLP').css("display", "none");
+                $('#matricula').prop('required', false);
+                $('#carrera').prop('required', false);
             }
         });
     </script>
