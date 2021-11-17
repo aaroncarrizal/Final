@@ -46,6 +46,15 @@
             border-bottom: 1px solid #0d47a1 !important;
             box-shadow: 0 1px 0 0 #0d47a1 !important
         }
+        body {
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1 0 auto;
+        }
     </style>
 </head>
 
@@ -146,7 +155,6 @@
                                     setcookie('nombre', "{$_POST['nombre']}", time() - 300);
                                 }
                                 mysqli_close($conexion);
-                                die();
                             }
                         ?>
 

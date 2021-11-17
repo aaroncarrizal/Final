@@ -46,6 +46,15 @@
             border-bottom: 1px solid #0d47a1 !important;
             box-shadow: 0 1px 0 0 #0d47a1 !important
         }
+        body {
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1 0 auto;
+        }
     </style>
 </head>
 
@@ -114,7 +123,7 @@
                                 mysqli_select_db($conexion, $database) or  die("Problemas en la selec. de BDs");
                                 $query = "INSERT INTO coordinadores (usuario,emailContacto,telContacto) VALUES ('{$email}','{$_POST['email']}','{$_POST['phone']}');";
                                 if (mysqli_query($conexion, $query)) {
-                                    echo "Registrado como coordinador con éxito";
+                                    echo "<h3 class=\"center\">Registrado como coordinador con éxito</h3>";
                                 }
                                 mysqli_close($conexion);
                             }

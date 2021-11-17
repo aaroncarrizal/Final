@@ -46,6 +46,16 @@
             border-bottom: 1px solid #0d47a1 !important;
             box-shadow: 0 1px 0 0 #0d47a1 !important
         }
+
+        body {
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
+        }
+
+        main {
+            flex: 1 0 auto;
+        }
     </style>
 </head>
 
@@ -79,12 +89,12 @@
             <li><a href="#">Crear un evento</a></li>
             <li><a href="#">Buscar un evento</a></li>
             <?php
-            if(isset($_COOKIE['email']) &&isset($_COOKIE['nombre'])){
-                    $nombre = strtok($_COOKIE['nombre'], " ");
-                    echo "<li><a href=\"logout.php\">Cerrar sesión de {$nombre}</a></li>";
-                }else{
-                    echo "<li><a href=\"login.html\">Iniciar sesión</a></li>";
-                }
+            if (isset($_COOKIE['email']) && isset($_COOKIE['nombre'])) {
+                $nombre = strtok($_COOKIE['nombre'], " ");
+                echo "<li><a href=\"logout.php\">Cerrar sesión de {$nombre}</a></li>";
+            } else {
+                echo "<li><a href=\"login.html\">Iniciar sesión</a></li>";
+            }
             ?>
         </ul>
         <!--dropdown-->
@@ -107,7 +117,7 @@
                     <div class="card-content">
                         <?php
                         $mensaje = "";
-                        if(isset($_COOKIE['email'])){
+                        if (isset($_COOKIE['email'])) {
                             $mensaje = "Bienvenido, {$_COOKIE['nombre']}";
                         }
                         if (isset($_POST['email']) && $_POST['email'] != "") {
@@ -130,8 +140,8 @@
                                             setcookie('nombre', $nombre, time() + 300);
                                             //print_r($_COOKIE);
                                             $mensaje = "<h3 class=\"center\">¡Bienvenido, {$nombre}!";
-                                        }else{
-                                            setcookie('email',"",time()-300); //elimina la cookie 
+                                        } else {
+                                            setcookie('email', "", time() - 300); //elimina la cookie 
                                             $mensaje = "<h3 class=\"center\">Usuario inválido</h3>";
                                         }
                                     }
@@ -148,7 +158,6 @@
                             setcookie('nombre', "", time() - 300);
                         }
                         echo $mensaje;
-                        die;
                         ?>
 
                     </div>
