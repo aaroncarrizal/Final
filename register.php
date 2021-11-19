@@ -137,7 +137,7 @@
                                         }
                                     }
                                 }
-                                mysqli_select_db($conexion, $database) or  die("Problemas en la selec. de BDs<br><br><br><br><br><br>");
+                                mysqli_select_db($conexion, $database) or  die("Problemas en la selec. de BDs");
                                 if(mysqli_query($conexion, $query)){
                                     echo "<h3 class= \"center\">Usuario registrado con éxito<br></h3>";
                                     echo "<p class = \"flow-text\"
@@ -146,7 +146,7 @@
                                                 <li>nombre: {$_POST['nombre']}</li>
                                                 <li>contraseña: {$_POST['pass']}</li>
                                             </ul>
-                                            </p><br><br><br><br><br>";
+                                            </p>";
                                     setcookie('email', "{$_POST['email']}", time() + 300); //inicia sesión 
                                     setcookie('nombre', "{$_POST['nombre']}", time() + 300);
                                 }else{

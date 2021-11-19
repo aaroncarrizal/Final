@@ -145,11 +145,11 @@
                     }
                     if (!$interno) {
                         header('Refresh: 2.5; URL=index.php');
-                        echo "<br><br><br><div class=\"col s12 m6 l6 offset-m3 offset-l3\">
+                        echo "<div class=\"col s12 m6 l6 offset-m3 offset-l3\">
                             <div class=\"card\">
                             <div class=\"card-content center\">
                             <p class=\"flow-text\">Para poder crear eventos necesitas una cuenta de alumno UPSLP</p>";
-                        echo "<i class=\"large material-icons\">sentiment_very_dissatisfied</i><br><br><br>";
+                        echo "<i class=\"large material-icons\">sentiment_very_dissatisfied</i>";
                         echo "<div class=\"preloader-wrapper big active\">
                         <div class=\"spinner-layer spinner-blue-only\">
                           <div class=\"circle-clipper left\">
@@ -179,7 +179,7 @@
                     }
                     if (!$coordinador) { //Redirigir a registro coordinador
                         header('Refresh: 2.5; URL=registerCoordinador.php');
-                        echo "<br><br><br><div class=\"col s12 m6 l6 offset-m3 offset-l3\">
+                        echo "<div class=\"col s12 m6 l6 offset-m3 offset-l3\">
                             <div class=\"card\">
                             <div class=\"card-content center\">
                             <p class=\"flow-text\">Para poder crear eventos necesitas Estar registrado como coordinador</p>";
@@ -200,11 +200,11 @@
                     }
                 } else {
                     header('Refresh: 2.5; URL=index.php');
-                    echo "<br><br><br><div class=\"col s12 m6 l6 offset-m3 offset-l3\">
+                    echo "<div class=\"col s12 m6 l6 offset-m3 offset-l3\">
                             <div class=\"card\">
                             <div class=\"card-content center\">
                             <p class=\"flow-text\">Para poder crear eventos necesitas una cuenta de alumno UPSLP</p>";
-                    echo "<i class=\"large material-icons\">sentiment_very_dissatisfied</i><br><br><br>";
+                    echo "<i class=\"large material-icons\">sentiment_very_dissatisfied</i>";
                     echo "<div class=\"preloader-wrapper big active\">
                         <div class=\"spinner-layer spinner-blue-only\">
                           <div class=\"circle-clipper left\">
@@ -248,14 +248,14 @@
             <div class="row">
                 <div class="input-field col s12">
                     <i class="material-icons prefix">info</i>
-                    <textarea id="info" class="materialize-textarea" required></textarea>
+                    <textarea id="info" class="materialize-textarea" name="info" required></textarea>
                     <label for="info">Descripción del evento</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field col s12 m6 l6">
                     <i class="material-icons prefix">place</i>
-                    <select class="icons" id="lugar" required>
+                    <select class="icons" id="lugar" name="lugar" required>
                         <option value="" disabled selected>Selecciona el lugar</option>
                         <?php
                         $conexion = mysqli_connect($host, $dbUser, $dbPass, $database) or die("Error en la conexion: " . mysqli_connect_error());
@@ -278,7 +278,7 @@
                 </div>
                 <div class="input-field col s12 m6 l6">
                     <i class="material-icons prefix">star</i>
-                    <select class="icons" id="tipoEvento" required>
+                    <select class="icons" id="tipoEvento" name="tipoEvento" required>
                         <option value="" disabled selected>Selecciona el tipo de evento</option>
                         <option value="Conferencia">Conferencia</option>
                         <option value="Evento deportivo">Evento deportivo</option>
@@ -411,8 +411,14 @@
             $('.scrollspy').scrollSpy();
             $(".dropdown-trigger").dropdown();
             $('select').formSelect();
-            $('.datepicker').datepicker();
-            $('.timepicker').timepicker();
+            $('.datepicker').datepicker({
+                format: 'yyyy-mm-dd',
+                selectMonths: true, // Creates a dropdown to control month
+                selectYears: 3 // Creates a dropdown of 3 years to control year
+            });
+            $('.timepicker').timepicker({
+                twelveHour: false
+            });
         });
     </script>
 </body>

@@ -128,11 +128,11 @@
                     }
                     if (!$interno) {
                         header('Refresh: 2.5; URL=index.php');
-                        echo "<br><br><br><div class=\"col s12 m6 l6 offset-m3 offset-l3\">
+                        echo "<div class=\"col s12 m6 l6 offset-m3 offset-l3\">
                             <div class=\"card\">
                             <div class=\"card-content center\">
                             <p class=\"flow-text\">Para poder crear eventos necesitas una cuenta de alumno UPSLP</p>";
-                        echo "<i class=\"large material-icons\">sentiment_very_dissatisfied</i><br><br><br>";
+                        echo "<i class=\"large material-icons\">sentiment_very_dissatisfied</i>";
                         echo "<div class=\"preloader-wrapper big active\">
                         <div class=\"spinner-layer spinner-blue-only\">
                           <div class=\"circle-clipper left\">
@@ -163,7 +163,7 @@
                         } else { //es interno y coordinador
                             echo "<script>$('#form').hide()</script>";
                             header('Refresh: 2.5; URL=index.php');
-                            echo "<br><br><br><div class=\"col s12 m6 l6 offset-m3 offset-l3\">
+                            echo "<div class=\"col s12 m6 l6 offset-m3 offset-l3\">
                                 <div class=\"card\">
                                 <div class=\"card-content center\">
                                 <p class=\"flow-text\">Ya estás registrado como coordinador</p>";
