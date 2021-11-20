@@ -68,8 +68,8 @@
                         <i class="material-icons">menu</i>
                     </a>
                     <ul class="right hide-on-med-and-down">
-                        <li><a href="#">Eventos en línea</a></li>
-                        <li><a href="#">Eventos presenciales</a></li>
+                        <li><a href="searchEvent.php?enLinea=true">Eventos en línea</a></li>
+                        <li><a href="searchEvent.php?enLinea=false">Eventos presenciales</a></li>
                         <li><a class='dropdown-trigger btn' href="#" data-target='dropdown1' id="drop"><i class="right material-icons">account_circle</i>
                                 <?php
                                 if (isset($_COOKIE['email']) && isset($_COOKIE['nombre'])) {
@@ -82,8 +82,8 @@
         </div>
         <!--sidenav-->
         <ul class="sidenav grey lighten-2" id="mobile-menu">
-            <li><a href="#">Eventos en línea</a></li>
-            <li><a href="#">Eventos presenciales</a></li>
+            <li><a href="searchEvent.php?enLinea=true">Eventos en línea</a></li>
+            <li><a href="searchEvent.php?enLinea=false">Eventos presenciales</a></li>
             <li><a href="createEvent.php">Crear un evento</a></li>
             <li><a href="searchEvent.php">Buscar un evento</a></li>
             <?php
@@ -104,7 +104,7 @@
                 echo "<li><a href=\"login.html\" class=\"blue-text text-darken-4\">Iniciar sesión</a></li>";
             }
             ?>
-            <li><a href="#" class="blue-text text-darken-4">Buscar evento</a></li>
+            <li><a href="searchEvent.php" class="blue-text text-darken-4">Buscar evento</a></li>
             <li><a href="createEvent.php" class="blue-text text-darken-4">Crear evento</a></li>
         </ul>
         <section class="container section scrollspy">
@@ -226,7 +226,7 @@
             <div class="col s12 m12 l12">
                 <div class="card horizontal hoverable">
                     <div class="card-image">
-                        <img src="img/upslpDark.jpg">
+                        <img src="img/eventoIndex.jpg">
                     </div>
                     <div class="card-stacked">
                         <div class="card-content">

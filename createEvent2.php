@@ -87,8 +87,8 @@
                         <i class="material-icons">menu</i>
                     </a>
                     <ul class="right hide-on-med-and-down">
-                        <li><a href="#">Eventos en línea</a></li>
-                        <li><a href="#">Eventos presenciales</a></li>
+                        <li><a href="searchEvent.php?enLinea=true">Eventos en línea</a></li>
+                        <li><a href="searchEvent.php?enLinea=false">Eventos presenciales</a></li>
                         <li><a class='dropdown-trigger btn' href="#" data-target='dropdown1' id="drop"><i class="right material-icons">account_circle</i>
                                 <?php
                                 if (isset($_COOKIE['email']) && isset($_COOKIE['nombre'])) {
@@ -101,10 +101,10 @@
         </div>
         <!--sidenav-->
         <ul class="sidenav grey lighten-2" id="mobile-menu">
-            <li><a href="#">Eventos en línea</a></li>
-            <li><a href="#">Eventos presenciales</a></li>
-            <li><a href="#">Crear un evento</a></li>
-            <li><a href="#">Buscar un evento</a></li>
+            <li><a href="searchEvent.php?enLinea=true">Eventos en línea</a></li>
+            <<li><a href="searchEvent.php?enLinea=false">Eventos presenciales</a></li>
+            <li><a href="createEvent.php">Crear un evento</a></li>
+            <li><a href="searchEvent.php">Buscar un evento</a></li>
             <?php
             if (isset($_COOKIE['email']) && isset($_COOKIE['nombre'])) {
                 $nombre = strtok($_COOKIE['nombre'], " ");
