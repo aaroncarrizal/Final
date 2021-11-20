@@ -236,7 +236,7 @@
                             </p>
                         </div>
                         <div class="card-action">
-                            <a href="#" class="orange-text text-darken-2"><i class="material-icons left">add_circle</i>Crear evento</a>
+                            <a href="createEvent.php" class="orange-text text-darken-2"><i class="material-icons left">add_circle</i>Crear evento</a>
                         </div>
                     </div>
                 </div>
