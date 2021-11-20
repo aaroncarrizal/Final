@@ -123,7 +123,7 @@
                 echo "<li><a href=\"login.html\" class=\"blue-text text-darken-4\">Iniciar sesión</a></li>";
             }
             ?>
-            <li><a href="#" class="blue-text text-darken-4">Buscar evento</a></li>
+            <li><a href="searchEvent.php" class="blue-text text-darken-4">Buscar evento</a></li>
             <li><a href="createEvent.php" class="blue-text text-darken-4">Crear evento</a></li>
         </ul>
     </header>
