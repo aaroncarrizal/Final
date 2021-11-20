@@ -144,7 +144,6 @@
                         mysqli_close($conexion);
                     }
                     if (!$interno) {
-                        //header('Refresh: 2.5; URL=index.php');
                         echo"
                         <script>
                             setTimeout(function(){
@@ -190,7 +189,6 @@
                         }
                     }
                     if (!$coordinador) { //Redirigir a registro coordinador
-                        //header('Refresh: 2.5; URL=registerCoordinador.php');
                         echo"
                         <script>
                             setTimeout(function(){
@@ -222,7 +220,6 @@
                         </div>";
                     }
                 } else {
-                    //header('Refresh: 2.5; URL=index.php');
                     echo"
                     <script>
                         setTimeout(function(){

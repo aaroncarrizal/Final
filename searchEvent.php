@@ -128,8 +128,7 @@
                         $query = "SELECT * FROM lugares INNER JOIN eventos ON lugares.id = eventos.lugar;";
                         $registrosl = mysqli_query($conexion, $query);
                         $tupla = mysqli_fetch_array($registrosl); //tupla = lugar del evento
-                        echo "
-                        
+                        echo "                       
                             <div class=\"col s12 m6 l4\">
                                 <div class=\"card sticky-action\">
                                     <div class=\"card-image waves-effect waves-block waves-light\">

@@ -132,7 +132,6 @@
                     mysqli_close($conexion);
                 }
             } else {
-                //header('Refresh: 2.5; URL=login.html');
                 echo"
                     <script>
                         setTimeout(function(){

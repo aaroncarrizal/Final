@@ -127,24 +127,35 @@
                         mysqli_close($conexion);
                     }
                     if (!$interno) {
-                        header('Refresh: 2.5; URL=index.php');
-                        echo "<div class=\"col s12 m6 l6 offset-m3 offset-l3\">
-                            <div class=\"card\">
-                            <div class=\"card-content center\">
-                            <p class=\"flow-text\">Para poder crear eventos necesitas una cuenta de alumno UPSLP</p>";
-                        echo "<i class=\"large material-icons\">sentiment_very_dissatisfied</i>";
-                        echo "<div class=\"preloader-wrapper big active\">
-                        <div class=\"spinner-layer spinner-blue-only\">
-                          <div class=\"circle-clipper left\">
-                            <div class=\"circle\"></div>
-                          </div><div class=\"gap-patch\">
-                            <div class=\"circle\"></div>
-                          </div><div class=\"circle-clipper right\">
-                            <div class=\"circle\"></div>
-                          </div>
-                        </div>
-                      </div><br><br>";
-                        echo "</div></div></div>";
+                        echo"
+                            <script>
+                                setTimeout(function(){
+                                    window.location.href = 'index.php';
+                                }, 2000);
+                            </script>
+                            ";
+                        echo "
+                            <div class=\"col s12 m6 l6 offset-m3 offset-l3\">
+                                <div class=\"card\">
+                                    <div class=\"card-content center\">
+                                        <p class=\"flow-text\">Para poder registrarte como coordinador necesitas tener una cuenta interna UPSLP</p>
+                                        <i class=\"large material-icons\">sentiment_very_dissatisfied</i><br><br>
+                                        <div class=\"preloader-wrapper big active\">
+                                            <div class=\"spinner-layer spinner-blue-only\">
+                                                <div class=\"circle-clipper left\">
+                                                    <div class=\"circle\"></div>
+                                                </div>
+                                                <div class=\"gap-patch\">
+                                                    <div class=\"circle\"></div>
+                                                </div>
+                                                <div class=\"circle-clipper right\">
+                                                    <div class=\"circle\"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>";
                     } else {
                         //echo "interno";
                         $conexion = mysqli_connect($host, $dbUser, $dbPass, $database) or die("Error en la conexion: " . mysqli_connect_error());
@@ -162,25 +173,35 @@
                             //echo "<script>\$(document).ready(function() {\$('#form').show();});</script>";
                         } else { //es interno y coordinador
                             echo "<script>$('#form').hide()</script>";
-                            header('Refresh: 2.5; URL=index.php');
-                            echo "<div class=\"col s12 m6 l6 offset-m3 offset-l3\">
-                                <div class=\"card\">
-                                <div class=\"card-content center\">
-                                <p class=\"flow-text\">Ya estás registrado como coordinador</p>";
-                            echo "<i class=\"large material-icons\">sentiment_very_satisfied</i><br><br>";
-                            echo "<p class=\"flow-text\">Redirigiendo...</p>";
-                            echo "<br><div class=\"preloader-wrapper big active\">
-                            <div class=\"spinner-layer spinner-blue-only\">
-                              <div class=\"circle-clipper left\">
-                                <div class=\"circle\"></div>
-                              </div><div class=\"gap-patch\">
-                                <div class=\"circle\"></div>
-                              </div><div class=\"circle-clipper right\">
-                                <div class=\"circle\"></div>
-                              </div>
-                            </div>
-                          </div><br><br>";
-                            echo "</div></div></div>";
+                            echo"
+                                <script>
+                                    setTimeout(function(){
+                                        window.location.href = 'index.php';
+                                    }, 2000);
+                                </script>
+                                ";
+                            echo "
+                                <div class=\"col s12 m6 l6 offset-m3 offset-l3\">
+                                    <div class=\"card\">
+                                        <div class=\"card-content center\">
+                                            <p class=\"flow-text\">Ya estas registrado como coordinador</p>
+                                            <i class=\"large material-icons\">sentiment_very_dissatisfied</i><br><br>
+                                            <div class=\"preloader-wrapper big active\">
+                                                <div class=\"spinner-layer spinner-blue-only\">
+                                                    <div class=\"circle-clipper left\">
+                                                        <div class=\"circle\"></div>
+                                                    </div>
+                                                    <div class=\"gap-patch\">
+                                                        <div class=\"circle\"></div>
+                                                    </div>
+                                                    <div class=\"circle-clipper right\">
+                                                        <div class=\"circle\"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>";
                         }
                     }
                 }

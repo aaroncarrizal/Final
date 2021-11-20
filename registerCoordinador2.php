@@ -116,7 +116,13 @@
                         //echo "aasdfadfasdf";
                         if (isset($_COOKIE['email']) && isset($_POST['email']) && isset($_POST['phone']) && $_POST['email'] != '' && $_POST['phone'] != '') {
                             require("config.php");
-                            header('Refresh: 2.5; URL=createEvent.php');
+                            echo"
+                            <script>
+                                setTimeout(function(){
+                                    window.location.href = 'index.php';
+                                }, 2000);
+                            </script>
+                            ";
                             $email = $_COOKIE['email'];
                             $conexion = mysqli_connect($host, $dbUser, $dbPass, $database) or die("Error en la conexion: " . mysqli_connect_error());
                             if ($conexion) {
