@@ -132,7 +132,14 @@
                     mysqli_close($conexion);
                 }
             } else {
-                header('Refresh: 2.5; URL=login.html');
+                //header('Refresh: 2.5; URL=login.html');
+                echo"
+                    <script>
+                        setTimeout(function(){
+                            window.location.href = 'login.html';
+                        }, 2000);
+                    </script>
+                    ";
                 echo "
                 <div class=\"col s12 m6 l6 offset-m3 offset-l3\">
                     <div class=\"card\">
