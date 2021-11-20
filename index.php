@@ -63,7 +63,7 @@
         <div class="navbar-fixed">
             <nav class="nav-wrapper transparent" id="nav1">
                 <div class="container">
-                    <a href="#" class="brand-logo"><img class="responsive-img" src="img/logo.png" style="margin-top: 10%;" id="logonav"></a>
+                    <a href="index.php" class="brand-logo"><img class="responsive-img" src="img/logo.png" style="margin-top: 10%;" id="logonav"></a>
                     <a href="#" class="sidenav-trigger" data-target="mobile-menu">
                         <i class="material-icons">menu</i>
                     </a>
@@ -85,7 +85,7 @@
             <li><a href="#">Eventos en línea</a></li>
             <li><a href="#">Eventos presenciales</a></li>
             <li><a href="createEvent.php">Crear un evento</a></li>
-            <li><a href="#">Buscar un evento</a></li>
+            <li><a href="searchEvent.php">Buscar un evento</a></li>
             <?php
             if(isset($_COOKIE['email']) &&isset($_COOKIE['nombre'])){
                     $nombre = strtok($_COOKIE['nombre'], " ");
@@ -121,7 +121,7 @@
                                 del campus de la Universidad Politécnica de San Luis Potosí. <br><br>
                             </p>
                             <h4>¡Encuentra tu próximo evento!</h4>
-                            <a class="waves-effect waves-light btn-large orange darken-2" href="#"><i class="material-icons right">search</i>Buscar evento</a>
+                            <a class="waves-effect waves-light btn-large orange darken-2" href="searchEvent.php"><i class="material-icons right">search</i>Buscar evento</a>
                         </div>
                     </div>
                 </div>
