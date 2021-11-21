@@ -214,39 +214,54 @@
             <?php
             require("config.php");
             $categorias = array("Conferencia", "Evento deportivo", "Evento en línea", "Feria", "Foro", "Masterclass");
-            $conexion = mysqli_connect($host, $dbUser, $dbPass, $database) or die("Error en la conexion: " . mysqli_connect_error());
-            if ($conexion) {
-                mysqli_select_db($conexion, $database) or  die("Problemas en la selec. de BDs");
-                $query = "SELECT * FROM eventos ORDER BY RAND();";
-                if ($registros = mysqli_query($conexion, $query)) {
-                    $contador = 0;
-                    while ($row = $registros->fetch_assoc()) { //row = lugares
+            for($x = 0; $x < 3; $x++){
+                $categoriaRand = $categorias[rand(0,count($categorias)-1)];
+                $conexion = mysqli_connect($host, $dbUser, $dbPass, $database) or die("Error en la conexion: " . mysqli_connect_error());
+                if ($conexion) {
+                    mysqli_select_db($conexion, $database) or  die("Problemas en la selec. de BDs");
+                    $query = "SELECT * FROM eventos WHERE tipo = '{$categoriaRand}' ORDER BY RAND() LIMIT 1;";
+                    if ($registros = mysqli_query($conexion, $query)) {
+                        while ($row = $registros->fetch_assoc()) { 
+                            $query = "SELECT * FROM lugares INNER JOIN eventos WHERE lugares.id = eventos.lugar AND eventos.id = {$row['id']} LIMIT 1;";
+                            $lugares = mysqli_query($conexion, $query);
+                            $lugar = $lugares->fetch_assoc();
+                            echo "                       
+                            <div class=\"col s12 m4 l4\">
+                                <div class=\"card sticky-action hoverable\">
+                                    <div class=\"card-image waves-effect waves-block waves-light\">
+                                        <img class=\"activator\" src=\"{$lugar['img']}\">
+                                        <span class=\"card-title\">{$row['tipo']}</span>
+                                    </div>
+                                    <div class=\"card-content\">
+                                        <span class=\"card-title activator\">
+                                            {$row['nombre']}<i class=\"material-icons right\">more_vert</i>
+                                        </span>
+                                    </div>
+                                    <div class=\"card-action\">
+                                        <a href=\"assistEvent.php?idEvento={$row['id']}\">Asistir a este evento<i class=\"material-icons left\">event</i></a>
+                                    </div>
+                                    <div class=\"card-reveal\">
+                                        <span class=\"card-title\">
+                                            {$row['nombre']}<i class=\"material-icons right\">close</i>
+                                        </span>
+                                        <ul>
+                                            <li>Inicio de evento: {$row['inicioEv']}</li>
+                                            <li>Fin de evento: {$row['inicioEv']}</li>
+                                            <li>Fin de registro: {$row['finReg']}</li>
+                                            <li>Tipo de evento: {$row['tipo']}</li>
+                                            <li>Costo del evento: \${$row['costo']} MXN</li>
+                                            <li>Descripción: {$row['info']}</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            ";
+                        }
                     }
+                    mysqli_close($conexion);
                 }
-                mysqli_close($conexion);
             }
             ?>
-            <!--div class="col s12 m4 l4">
-                <div class="card blue">
-                    <div class="card-content">
-                        Categoría 1
-                    </div>
-                </div>
-            </div>
-            <div class="col s12 m4 l4">
-                <div class="card blue">
-                    <div class="card-content">
-                        Categoría 2
-                    </div>
-                </div>
-            </div>
-            <div class="col s12 m4 l4">
-                <div class="card blue">
-                    <div class="card-content">
-                        Categoría 3
-                    </div>
-                </div>
-            </div>!-->
         </div>
         <div class="row">
             <div class="col s12 m12 l12 hide-on-small-only">
