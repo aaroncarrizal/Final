@@ -125,9 +125,10 @@
                 $query = "SELECT * FROM eventos WHERE finReg >= '{$hoy}';";
                 if ($registros = mysqli_query($conexion, $query)) {
                     while ($row = $registros->fetch_assoc()) { //row = eventos
-                        $query = "SELECT * FROM lugares INNER JOIN eventos ON lugares.id = eventos.lugar;";
+                        $query = "SELECT * FROM lugares INNER JOIN eventos ON lugares.id = {$row['lugar']};";
                         $registrosl = mysqli_query($conexion, $query);
                         $tupla = mysqli_fetch_array($registrosl); //tupla = lugar del evento
+                        //print_r($tupla);
                         echo "                       
                             <div class=\"col s12 m6 l4\">
                                 <div class=\"card sticky-action\">
@@ -150,9 +151,10 @@
                                             <li>Inicio de evento: {$row['inicioEv']}</li>
                                             <li>Fin de evento: {$row['inicioEv']}</li>
                                             <li>Fin de registro: {$row['finReg']}</li>
-                                            <li>Lugar del evento: {$tupla['nombre']}</li>
+                                            <!--<li>Lugar del evento: {$tupla['nombre']}</li>!-->
                                             <li>Tipo de evento: {$row['tipo']}</li>
                                             <li>Costo del evento: \${$row['costo']} MXN</li>
+                                            <li>Descripción: {$row['info']}</li>
 
                                         </ul>
                                     </div>

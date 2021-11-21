@@ -68,6 +68,7 @@
 </head>
 
 <body>
+<?php ob_start(); ?>
     <!-- navbar -->
     <header>
         <div class="navbar-fixed">
