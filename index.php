@@ -87,12 +87,12 @@
             <li><a href="createEvent.php">Crear un evento</a></li>
             <li><a href="searchEvent.php">Buscar un evento</a></li>
             <?php
-            if(isset($_COOKIE['email']) &&isset($_COOKIE['nombre'])){
-                    $nombre = strtok($_COOKIE['nombre'], " ");
-                    echo "<li><a href=\"logout.php\">Cerrar sesión de {$nombre}</a></li>";
-                }else{
-                    echo "<li><a href=\"login.html\">Iniciar sesión</a></li>";
-                }
+            if (isset($_COOKIE['email']) && isset($_COOKIE['nombre'])) {
+                $nombre = strtok($_COOKIE['nombre'], " ");
+                echo "<li><a href=\"logout.php\">Cerrar sesión de {$nombre}</a></li>";
+            } else {
+                echo "<li><a href=\"login.html\">Iniciar sesión</a></li>";
+            }
             ?>
         </ul>
         <!--dropdown-->
@@ -133,74 +133,100 @@
             <div class="col s12 m12 l12">
                 <h3>Descubre eventos en las instalaciones...</h3>
             </div>
+            <img src="" alt="" style="max-width: 100%;">
         </div>
-        <div class="row">
-            <div class="col s12 m6 l3">
-                <div class="card blue">
-                    <div class="card-content">
-                        Lugar 1
-                    </div>
-                </div>
-            </div>
-            <div class="col s12 m6 l3">
-                <div class="card blue">
-                    <div class="card-content">
-                        Lugar 2
-                    </div>
-                </div>
-            </div>
-            <div class="col s12 m6 l3">
-                <div class="card blue">
-                    <div class="card-content">
-                        Lugar 3
-                    </div>
-                </div>
-            </div>
-            <div class="col s12 m6 l3">
-                <div class="card blue">
-                    <div class="card-content">
-                        Lugar 4
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col s12 m6 l3 hide-on-small-and-down">
-                <div class="card blue">
-                    <div class="card-content">
-                        Lugar 5
-                    </div>
-                </div>
-            </div>
-            <div class="col s12 m6 l3 hide-on-small-and-down">
-                <div class="card blue">
-                    <div class="card-content">
-                        Lugar 6
-                    </div>
-                </div>
-            </div>
-            <div class="col s12 m6 l3 hide-on-small-and-down">
-                <div class="card blue">
-                    <div class="card-content">
-                        Lugar 7
-                    </div>
-                </div>
-            </div>
-            <div class="col s12 m6 l3 hide-on-small-and-down">
-                <div class="card blue">
-                    <div class="card-content">
-                        Lugar 8
-                    </div>
-                </div>
-            </div>
-        </div>
+        <!--<div class="row">!-->
+            <?php
+            require("config.php");
+            $conexion = mysqli_connect($host, $dbUser, $dbPass, $database) or die("Error en la conexion: " . mysqli_connect_error());
+            if ($conexion) {
+                mysqli_select_db($conexion, $database) or  die("Problemas en la selec. de BDs");
+                date_default_timezone_set("America/Mexico_City");
+                $hoy = date("Y-m-d h:i:s");
+                $query = "SELECT * FROM lugares ORDER BY RAND();";
+                if ($registros = mysqli_query($conexion, $query)) {
+                    $contador = 0;
+                    while ($row = $registros->fetch_assoc()) { //row = lugares
+                        if($contador == 0) echo"<div class=\"row\">";
+                        if ($contador < 4) {
+                            echo "
+                                <div class=\"col s12 m6 l3\">
+                                    <div class=\"card hoverable\">
+                                        <div class=\"card-image\">
+                                            <img class=\"responsive-img\" src=\"{$row['img']}\" >
+                                            <span class=\"card-title\">{$row['nombre']}</span>
+                                        </div>
+                                        <div class=\"card-action\">
+                                                <a href=\"searchEvent.php?idLugar={$row['id']}\" class=\"orange-text text-darken-2\"><i class=\"material-icons left\">search</i>Ver eventos aquí</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                ";
+                            if($contador == 3)echo"</div>";
+                            $contador++;
+                        } elseif ($contador >= 4 && $contador < 8) {
+                            if($contador == 4) echo"<div class=\"row hide-on-small-only\">";
+                            echo "
+                                <div class=\"col s12 m6 l3\">
+                                    <div class=\"card hoverable\">
+                                        <div class=\"card-image\">
+                                            <img class=\"responsive-img\" src=\"{$row['img']}\" >
+                                            <span class=\"card-title\">{$row['nombre']}</span>
+                                        </div>
+                                        <div class=\"card-action\">
+                                                <a href=\"searchEvent.php?idLugar={$row['id']}\" class=\"orange-text text-darken-2\"><i class=\"material-icons left\">search</i>Ver eventos aquí</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                ";
+                                if($contador == 7)echo"</div>";
+                            $contador++;
+                        }elseif($contador < 12){
+                            if($contador == 8) echo"<div class=\"row hide-on-med-and-down\">";
+                            echo "
+                                <div class=\"col s12 m6 l3\">
+                                    <div class=\"card hoverable\">
+                                        <div class=\"card-image\">
+                                            <img class=\"responsive-img\" src=\"{$row['img']}\" >
+                                            <span class=\"card-title\">{$row['nombre']}</span>
+                                        </div>
+                                        <div class=\"card-action\">
+                                                <a href=\"searchEvent.php?idLugar={$row['id']}\" class=\"orange-text text-darken-2\"><i class=\"material-icons left\">search</i>Ver eventos aquí</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                ";
+                                if($contador == 11)echo"</div>";
+                            $contador++;
+                        }
+                    }
+                }
+                mysqli_close($conexion);
+            }
+            ?>
+        <!--</div>!-->
         <div class="row">
             <div class="col s12 m12 l12">
                 <h3>Encuentra eventos por categoría...</h3>
             </div>
         </div>
         <div class="row">
-            <div class="col s12 m4 l4">
+            <?php
+            require("config.php");
+            $categorias = array("Conferencia", "Evento deportivo", "Evento en línea", "Feria", "Foro", "Masterclass");
+            $conexion = mysqli_connect($host, $dbUser, $dbPass, $database) or die("Error en la conexion: " . mysqli_connect_error());
+            if ($conexion) {
+                mysqli_select_db($conexion, $database) or  die("Problemas en la selec. de BDs");
+                $query = "SELECT * FROM eventos ORDER BY RAND();";
+                if ($registros = mysqli_query($conexion, $query)) {
+                    $contador = 0;
+                    while ($row = $registros->fetch_assoc()) { //row = lugares
+                    }
+                }
+                mysqli_close($conexion);
+            }
+            ?>
+            <!--div class="col s12 m4 l4">
                 <div class="card blue">
                     <div class="card-content">
                         Categoría 1
@@ -220,15 +246,15 @@
                         Categoría 3
                     </div>
                 </div>
-            </div>
+            </div>!-->
         </div>
         <div class="row">
-            <div class="col s12 m12 l12">
+            <div class="col s12 m12 l12 hide-on-small-only">
                 <div class="card horizontal hoverable">
                     <div class="card-image">
                         <img src="img/eventoIndex.jpg">
                     </div>
-                    <div class="card-stacked">
+                    <div class="card-stacked ">
                         <div class="card-content">
                             <h4>Crea tu propio evento</h4>
                             <p class="flow-text">
@@ -238,6 +264,22 @@
                         <div class="card-action">
                             <a href="createEvent.php" class="orange-text text-darken-2"><i class="material-icons left">add_circle</i>Crear evento</a>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col s12 hide-on-med-and-up">
+                <div class="card">
+                    <div class="card-image">
+                        <img src="img/eventoIndex.jpg">
+                        <span class="card-title">Crea tu propio Evento</span>
+                    </div>
+                    <div class="card-content">
+                        <p class="flow-text">
+                            Fija el lugar, fecha y hora de tu próximo evento en el campus de la UPSLP.
+                        </p>
+                    </div>
+                    <div class="card-action">
+                        <a href="createEvent.php" class="orange-text text-darken-2"><i class="material-icons left">add_circle</i>Crear evento</a>
                     </div>
                 </div>
             </div>
@@ -309,15 +351,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script>
         $(document).ready(function() {
-
             $('.sidenav').sidenav();
             $('.materialboxed').materialbox();
             $('.tabs').tabs();
             $('.tooltipped').tooltip();
             $('.scrollspy').scrollSpy();
             $(".dropdown-trigger").dropdown();
-
         });
+
         $(window).scroll(function() {
             if ($(window).scrollTop() >= 10) {
                 $("#header1").removeClass('headerLight').addClass('headerDark');
@@ -329,9 +370,6 @@
                 $("#logonav").attr("src", "img/logoog.png");
             }
         });
-    </script>
-    <script>
-
     </script>
 </body>
 
