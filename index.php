@@ -305,27 +305,54 @@
             </div>
         </div>
         <div class="row">
-            <div class="col s12 m4 l4">
-                <div class="card blue">
-                    <div class="card-content">
-                        Evento pasado 1
-                    </div>
-                </div>
-            </div>
-            <div class="col s12 m4 l4">
-                <div class="card blue">
-                    <div class="card-content">
-                        Evento pasado 2
-                    </div>
-                </div>
-            </div>
-            <div class="col s12 m4 l4">
-                <div class="card blue">
-                    <div class="card-content">
-                        Evento pasado 3
-                    </div>
-                </div>
-            </div>
+            <?php
+            date_default_timezone_set("America/Mexico_City");
+            $hoy = date("Y-m-d h:i:s");
+            require("config.php");
+            $categorias = array("Conferencia", "Evento deportivo", "Evento en línea", "Feria", "Foro", "Masterclass");
+            for($x = 0; $x < 3; $x++){
+                $categoriaRand = $categorias[rand(0,count($categorias)-1)];
+                $conexion = mysqli_connect($host, $dbUser, $dbPass, $database) or die("Error en la conexion: " . mysqli_connect_error());
+                if ($conexion) {
+                    mysqli_select_db($conexion, $database) or  die("Problemas en la selec. de BDs");
+                    $query = "SELECT * FROM eventos WHERE finEv < '{$hoy}'  ORDER BY RAND() LIMIT 1;";
+                    if ($registros = mysqli_query($conexion, $query)) {
+                        while ($row = $registros->fetch_assoc()) { 
+                            $query = "SELECT * FROM lugares INNER JOIN eventos WHERE lugares.id = eventos.lugar AND eventos.id = {$row['id']} LIMIT 1;";
+                            $lugares = mysqli_query($conexion, $query);
+                            $lugar = $lugares->fetch_assoc();
+                            echo "                       
+                            <div class=\"col s12 m4 l4\">
+                                <div class=\"card sticky-action hoverable\">
+                                    <div class=\"card-image waves-effect waves-block waves-light\">
+                                        <img class=\"activator\" src=\"{$lugar['img']}\">
+                                        <span class=\"card-title\">{$row['nombre']}</span>
+                                    </div>
+                                    <div class=\"card-content\">
+                                        <span class=\"card-title activator\">
+                                            {$row['finEv']}<i class=\"material-icons right\">more_vert</i>
+                                        </span>
+                                    </div>
+                                    <div class=\"card-reveal\">
+                                        <span class=\"card-title\">
+                                            {$row['nombre']}<i class=\"material-icons right\">close</i>
+                                        </span>
+                                        <ul>
+                                            <li>Inicio de evento: {$row['inicioEv']}</li>
+                                            <li>Fin de evento: {$row['inicioEv']}</li>
+                                            <li>Tipo de evento: {$row['tipo']}</li>
+                                            <li>Descripción: {$row['info']}</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            ";
+                        }
+                    }
+                    mysqli_close($conexion);
+                }
+            }
+            ?>
         </div>
     </section>
     <!-- footer -->
