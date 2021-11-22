@@ -75,6 +75,10 @@
                         <li><a class='dropdown-trigger btn' href="#" data-target='dropdown1' id="drop"><i class="right material-icons">account_circle</i>
                                 <?php
                                 if (isset($_COOKIE['email']) && isset($_COOKIE['nombre'])) {
+                                    $email = $_COOKIE['email'];
+                                    $nombre = $_COOKIE['nombre'];
+                                    setcookie('email', $email, time() + 300); //5 mins
+                                    setcookie('nombre', $nombre, time() + 300);
                                     echo strtok($_COOKIE['nombre'], " ");
                                 }
                                 ?></a></li>
@@ -116,10 +120,6 @@
         <div class="row">
             <?php
             if (isset($_COOKIE['email'])) {   //hay sesión iniciada?
-                $email = $_COOKIE['email'];
-                $nombre = $_COOKIE['nombre'];
-                setcookie('email', $email, time() + 300); //5 mins
-                setcookie('nombre', $nombre, time() + 300);
                 require("config.php");
                 $conexion = mysqli_connect($host, $dbUser, $dbPass, $database) or die("Error en la conexion: " . mysqli_connect_error());
                 if ($conexion) {

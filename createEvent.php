@@ -84,6 +84,10 @@
                         <li><a class='dropdown-trigger btn' href="#" data-target='dropdown1' id="drop"><i class="right material-icons">account_circle</i>
                                 <?php
                                 if (isset($_COOKIE['email']) && isset($_COOKIE['nombre'])) {
+                                    $email = $_COOKIE['email'];
+                                    $nombre = $_COOKIE['nombre'];
+                                    setcookie('email', $email, time() + 600); //10 mins
+                                    setcookie('nombre', $nombre, time() + 600);
                                     echo strtok($_COOKIE['nombre'], " ");
                                 }
                                 ?></a></li>
@@ -126,10 +130,7 @@
             <div class="col s12 m12 l12">
                 <?php
                 if (isset($_COOKIE['email'])) {   //hay sesión iniciada?
-                    $email = $_COOKIE['email'];
-                    $nombre = $_COOKIE['nombre'];
-                    setcookie('email', $email, time() + 600); //10 mins
-                    setcookie('nombre', $nombre, time() + 600);
+                    
                     $interno = false;
                     $coordinador = false;
                     require("config.php");
