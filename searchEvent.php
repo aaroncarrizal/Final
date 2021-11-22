@@ -125,6 +125,17 @@
                 date_default_timezone_set("America/Mexico_City");
                 $hoy = date("Y-m-d h:i:s");
                 $query = "SELECT * FROM eventos WHERE finReg >= '{$hoy}';";
+                if(isset($_GET['enLinea'])){
+                    if($_GET['enLinea'] == 'true'){
+                        $query = "SELECT * FROM eventos WHERE finReg >= '{$hoy}' AND tipo = 'Evento en línea';";
+                    }else{
+                        $query = "SELECT * FROM eventos WHERE finReg >= '{$hoy}' AND tipo <> 'Evento en línea';";
+                    }
+                }
+                if(isset($_GET['idLugar'])){
+                    $idL = intval($_GET['idLugar']);
+                    $query = "SELECT * FROM eventos WHERE finReg >= '{$hoy}' AND lugar = {$idL}";
+                }
                 if ($registros = mysqli_query($conexion, $query)) {
                     while ($row = $registros->fetch_assoc()) { //row = eventos
                         $query = "SELECT * FROM lugares INNER JOIN eventos ON lugares.id = {$row['lugar']};";
