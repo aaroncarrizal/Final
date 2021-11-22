@@ -81,7 +81,8 @@
             <?php
             if (isset($_COOKIE['email']) && isset($_COOKIE['nombre'])) {
                 $nombre = strtok($_COOKIE['nombre'], " ");
-                echo "<li><a href=\"logout.php\">Cerrar sesión de {$nombre}</a></li>";
+                echo "<li><a href=\"logout.php\">Cerrar sesión de {$nombre}</a></li>
+                        <li><a href=\"registerFiscales.php\">Registrar Datos fiscales</a></li>";
             } else {
                 echo "<li><a href=\"login.html\">Iniciar sesión</a></li>";
             }
@@ -91,7 +92,8 @@
         <ul id='dropdown1' class='dropdown-content'>
             <?php
             if (isset($_COOKIE['email']) && isset($_COOKIE['nombre'])) {
-                echo "<li><a href=\"logout.php\" class=\"blue-text text-darken-4\">Cerrar sesión</a></li>";
+                echo "<li><a href=\"logout.php\" class=\"blue-text text-darken-4\">Cerrar sesión</a></li>
+                <li><a href=\"registerFiscales.php\" class=\"blue-text text-darken-4\">Registrar Datos fiscales</a></li>";
             } else {
                 echo "<li><a href=\"login.html\" class=\"blue-text text-darken-4\">Iniciar sesión</a></li>";
             }
