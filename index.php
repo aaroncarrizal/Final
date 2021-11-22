@@ -213,13 +213,15 @@
         <div class="row">
             <?php
             require("config.php");
+            date_default_timezone_set("America/Mexico_City");
+            $hoy = date("Y-m-d h:i:s");
             $categorias = array("Conferencia", "Evento deportivo", "Evento en línea", "Feria", "Foro", "Masterclass");
             for($x = 0; $x < 3; $x++){
                 $categoriaRand = $categorias[rand(0,count($categorias)-1)];
                 $conexion = mysqli_connect($host, $dbUser, $dbPass, $database) or die("Error en la conexion: " . mysqli_connect_error());
                 if ($conexion) {
                     mysqli_select_db($conexion, $database) or  die("Problemas en la selec. de BDs");
-                    $query = "SELECT * FROM eventos WHERE tipo = '{$categoriaRand}' ORDER BY RAND() LIMIT 1;";
+                    $query = "SELECT * FROM eventos WHERE tipo = '{$categoriaRand}' AND finReg > '{$hoy}' ORDER BY RAND() LIMIT 1;";
                     if ($registros = mysqli_query($conexion, $query)) {
                         while ($row = $registros->fetch_assoc()) { 
                             $query = "SELECT * FROM lugares INNER JOIN eventos WHERE lugares.id = eventos.lugar AND eventos.id = {$row['id']} LIMIT 1;";
