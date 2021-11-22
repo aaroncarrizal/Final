@@ -12,7 +12,7 @@
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <script src="https://kit.fontawesome.com/8c04a359e6.js" crossorigin="anonymous"></script>
-    <title>Crear Evento | UPSLP</title>
+    <title>Registro Coordinador | UPSLP</title>
     <style>
         .section {
             padding-top: 4vw;
@@ -65,6 +65,10 @@
                         <li><a class='dropdown-trigger btn' href="#" data-target='dropdown1' id="drop"><i class="right material-icons">account_circle</i>
                                 <?php
                                 if (isset($_COOKIE['email']) && isset($_COOKIE['nombre'])) {
+                                    $email = $_COOKIE['email'];
+                                    $nombre = $_COOKIE['nombre'];
+                                    setcookie('email', $email, time() + 300); //5 mins
+                                    setcookie('nombre', $nombre, time() + 300);
                                     echo strtok($_COOKIE['nombre'], " ");
                                 }
                                 ?></a></li>
@@ -107,10 +111,6 @@
             <div class="col s12 m12 l12">
                 <?php
                 if (isset($_COOKIE['email'])) {   //hay sesión iniciada?
-                    $email = $_COOKIE['email'];
-                    $nombre = $_COOKIE['nombre'];
-                    setcookie('email', $email, time() + 300); //5 mins
-                    setcookie('nombre', $nombre, time() + 300);
                     $interno = false;
                     $coordinador = false;
                     require("config.php");
@@ -129,6 +129,7 @@
                         mysqli_close($conexion);
                     }
                     if (!$interno) {
+                        echo "<script>$('#form').hide()</script>";
                         echo"
                             <script>
                                 setTimeout(function(){
@@ -158,6 +159,7 @@
                                     </div>
                                 </div>
                             </div>";
+                            die();
                     } else {
                         //echo "interno";
                         $conexion = mysqli_connect($host, $dbUser, $dbPass, $database) or die("Error en la conexion: " . mysqli_connect_error());

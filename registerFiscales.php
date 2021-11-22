@@ -12,7 +12,7 @@
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <script src="https://kit.fontawesome.com/8c04a359e6.js" crossorigin="anonymous"></script>
-    <title>Iniciar sesión | UPSLP</title>
+    <title>Registar Fiscales | UPSLP</title>
     <style>
         .section {
             padding-top: 4vw;
@@ -44,17 +44,24 @@
         /* label underline focus color */
         .row .input-field input:focus {
             border-bottom: 1px solid #0d47a1 !important;
-            box-shadow: 0 1px 0 0 #0d47a1 !important
+            box-shadow: 0 1px 0 0 #0d47a1 !important;
         }
 
-        body {
-            display: flex;
-            min-height: 100vh;
-            flex-direction: column;
+        .material-icons.active {
+            color: #0d47a1 !important;
         }
 
-        main {
-            flex: 1 0 auto;
+        .switch label input[type=checkbox]:checked+.lever:after {
+            background-color: #0d47a1 !important;
+        }
+
+        .switch label input[type=checkbox]:checked+.lever {
+            background-color: #1976d2 !important;
+        }
+
+        ul.dropdown-content.select-dropdown li span {
+            color: #0d47a1;
+            /* no need for !important :) */
         }
     </style>
 </head>
@@ -75,6 +82,12 @@
                         <li><a class='dropdown-trigger btn' href="#" data-target='dropdown1' id="drop"><i class="right material-icons">account_circle</i>
                                 <?php
                                 if (isset($_COOKIE['email']) && isset($_COOKIE['nombre'])) {
+                                    $email = $_COOKIE['email'];
+                                    $nombre = $_COOKIE['nombre'];
+                                    setcookie('email', '', time() - 300); //5 mins
+                                    setcookie('nombre', '', time() - 300);
+                                    setcookie('email', $email, time() + 300); //5 mins
+                                    setcookie('nombre', $nombre, time() + 300);
                                     echo strtok($_COOKIE['nombre'], " ");
                                 }
                                 ?></a></li>
@@ -114,69 +127,117 @@
     </header>
     <section class="container section scrollspy">
         <div class="row">
-            <h1>Lista de eventos</h1>
-        </div>
-        <div class="row">
-            <?php
-            require("config.php");
-            $conexion = mysqli_connect($host, $dbUser, $dbPass, $database) or die("Error en la conexion: " . mysqli_connect_error());
-            if ($conexion) {
-                mysqli_select_db($conexion, $database) or  die("Problemas en la selec. de BDs");
-                date_default_timezone_set("America/Mexico_City");
-                $hoy = date("Y-m-d h:i:s");
-                $query = "SELECT * FROM eventos WHERE finReg >= '{$hoy}';";
-                if(isset($_GET['enLinea'])){
-                    if($_GET['enLinea'] == 'true'){
-                        $query = "SELECT * FROM eventos WHERE finReg >= '{$hoy}' AND tipo = 'Evento en línea';";
-                    }else{
-                        $query = "SELECT * FROM eventos WHERE finReg >= '{$hoy}' AND tipo <> 'Evento en línea';";
-                    }
-                }
-                if(isset($_GET['idLugar'])){
-                    $idL = intval($_GET['idLugar']);
-                    $query = "SELECT * FROM eventos WHERE finReg >= '{$hoy}' AND lugar = {$idL}";
-                }
-                if ($registros = mysqli_query($conexion, $query)) {
-                    while ($row = $registros->fetch_assoc()) { //row = eventos
-                        $query = "SELECT * FROM lugares INNER JOIN eventos ON lugares.id = {$row['lugar']};";
-                        $registrosl = mysqli_query($conexion, $query);
-                        $tupla = mysqli_fetch_array($registrosl); //tupla = lugar del evento
-                        //print_r($tupla);
-                        echo "                       
-                            <div class=\"col s12 m6 l4\">
-                                <div class=\"card sticky-action\">
-                                    <div class=\"card-image waves-effect waves-block waves-light\">
-                                        <img class=\"activator\" src=\"{$tupla['img']}\">
-                                    </div>
-                                    <div class=\"card-content\">
-                                        <span class=\"card-title activator\">
-                                            {$row['nombre']}<i class=\"material-icons right\">more_vert</i>
-                                        </span>
-                                    </div>
-                                    <div class=\"card-action\">
-                                        <a href=\"assistEvent.php?idEvento={$row['id']}\">Asistir a este evento<i class=\"material-icons left\">event</i></a>
-                                    </div>
-                                    <div class=\"card-reveal\">
-                                        <span class=\"card-title\">
-                                            {$row['nombre']}<i class=\"material-icons right\">close</i>
-                                        </span>
-                                        <ul>
-                                            <li>Inicio de evento: {$row['inicioEv']}</li>
-                                            <li>Fin de evento: {$row['inicioEv']}</li>
-                                            <li>Fin de registro: {$row['finReg']}</li>
-                                            <!--<li>Lugar del evento: {$tupla['nombre']}</li>!-->
-                                            <li>Tipo de evento: {$row['tipo']}</li>
-                                            <li>Costo del evento: \${$row['costo']} MXN</li>
-                                            <li>Descripción: {$row['info']}</li>
-                                        </ul>
+            <div class="col s12 m12 l12">
+                <?php
+                if (!isset($_COOKIE['email'])) {   //hay sesión iniciada?
+                    echo "<script>$('#form').hide()</script>";
+                    echo"
+                            <script>
+                                setTimeout(function(){
+                                    window.location.href = 'index.php';
+                                }, 2000);
+                            </script>
+                            ";
+                        echo "
+                            <div class=\"col s12 m6 l6 offset-m3 offset-l3\">
+                                <div class=\"card\">
+                                    <div class=\"card-content center\">
+                                        <p class=\"flow-text\">Inicia sesión para poder registrar tus datos fiscales</p>
+                                        <i class=\"large material-icons\">sentiment_very_dissatisfied</i><br><br>
+                                        <div class=\"preloader-wrapper big active\">
+                                            <div class=\"spinner-layer spinner-blue-only\">
+                                                <div class=\"circle-clipper left\">
+                                                    <div class=\"circle\"></div>
+                                                </div>
+                                                <div class=\"gap-patch\">
+                                                    <div class=\"circle\"></div>
+                                                </div>
+                                                <div class=\"circle-clipper right\">
+                                                    <div class=\"circle\"></div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            ";
-                    }
+                            </div>";
+                    die();
+                }else{
+                    echo "<script>$('#form').show()</script>";
+                    
                 }
-            }
-            ?>
+                ?>
+            </div>
+        </div>
+        <div class="row" id="form">
+            <div class="col s12 m6 l6 offset-m3 offset-l3">
+                <div class="card">
+                    <div class="card-content">
+                        <span class="card-title center" style="margin-top: 2vw;"><i class="large material-icons">account_balance</i>
+                            <h3 style="margin-top: 0;">Datos Fiscales</h3>
+                        </span>
+                        <!--form-->
+                        <form action="registerCoordinador2.php" method="POST">
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">face</i>
+                                    <input type="text" id="nombre" name="nombre" required>
+                                    <label for="nombre">Nombre fiscal</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">badge</i>
+                                    <input type="text" id="rfc" name="rfc" required>
+                                    <label for="rfc">RFC</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">home</i>
+                                    <input type="text" id="phone" name="phone" required>
+                                    <label for="domicilio">Domicilio</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">markunread_mailbox</i>
+                                    <input type="number" id="codigoP" name="codigoP" required>
+                                    <label for="codigoP">Código postal</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">location_city</i>
+                                    <input type="number" id="poblacion" name="poblacion" required>
+                                    <label for="poblacion">Población</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">phone</i>
+                                    <input type="tel" id="telefono" name="telefono" required>
+                                    <label for="telefono">Código postal</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12">
+                                    <i class="material-icons prefix">email</i>
+                                    <input type="email" id="email" name="email" required>
+                                    <label for="email">Correo electrónico fiscal</label>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="input-field col s12 center">
+                                    <button class="btn waves-effect  blue darken-4" type="submit" name="action">
+                                        Registrar datos fiscales<i class="material-icons right">person_add_alt_1</i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
     <!-- footer -->
@@ -224,7 +285,7 @@
             $('.tooltipped').tooltip();
             $('.scrollspy').scrollSpy();
             $(".dropdown-trigger").dropdown();
-
+            $('#form').show();
         });
     </script>
     <script>

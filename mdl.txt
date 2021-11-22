@@ -50,3 +50,15 @@ CREATE TABLE asistentes(
     FOREIGN KEY(evento) REFERENCES eventos(id), 
     FOREIGN KEY(usuario) REFERENCES usuarios(email)
 );
+CREATE TABLE fiscales(
+    usuario VARCHAR(50) NOT NULL,
+    nombre VARCHAR(100),
+    rfc VARCHAR(13),
+    domicilio VARCHAR(100),
+    codigoP int,
+    población VARCHAR(100),
+    telefono VARCHAR(50),
+    emailf VARCHAR(50),
+    FOREIGN KEY (usuario) REFERENCES usuarios(email),
+    PRIMARY KEY (usuario)
+);
