@@ -56,6 +56,11 @@
         main {
             flex: 1 0 auto;
         }
+
+        img {
+            width: 100%;
+            height: auto;
+        }
     </style>
 </head>
 
@@ -86,17 +91,17 @@
         <ul class="sidenav grey lighten-2" id="mobile-menu">
             <li><a href="searchEvent.php?enLinea=true">Eventos en línea</a></li>
             <<li><a href="searchEvent.php?enLinea=false">Eventos presenciales</a></li>
-            <li><a href="createEvent.php">Crear un evento</a></li>
-            <li><a href="searchEvent.php">Buscar un evento</a></li>
-            <?php
-            if (isset($_COOKIE['email']) && isset($_COOKIE['nombre'])) {
-                $nombre = strtok($_COOKIE['nombre'], " ");
-                echo "<li><a href=\"logout.php\">Cerrar sesión de {$nombre}</a></li>
+                <li><a href="createEvent.php">Crear un evento</a></li>
+                <li><a href="searchEvent.php">Buscar un evento</a></li>
+                <?php
+                if (isset($_COOKIE['email']) && isset($_COOKIE['nombre'])) {
+                    $nombre = strtok($_COOKIE['nombre'], " ");
+                    echo "<li><a href=\"logout.php\">Cerrar sesión de {$nombre}</a></li>
                         <li><a href=\"registerFiscales.php\">Registrar Datos fiscales</a></li>";
-            } else {
-                echo "<li><a href=\"login.html\">Iniciar sesión</a></li>";
-            }
-            ?>
+                } else {
+                    echo "<li><a href=\"login.html\">Iniciar sesión</a></li>";
+                }
+                ?>
         </ul>
         <!--dropdown-->
         <ul id='dropdown1' class='dropdown-content'>
@@ -125,14 +130,14 @@
                 date_default_timezone_set("America/Mexico_City");
                 $hoy = date("Y-m-d h:i:s");
                 $query = "SELECT * FROM eventos WHERE finReg >= '{$hoy}';";
-                if(isset($_GET['enLinea'])){
-                    if($_GET['enLinea'] == 'true'){
+                if (isset($_GET['enLinea'])) {
+                    if ($_GET['enLinea'] == 'true') {
                         $query = "SELECT * FROM eventos WHERE finReg >= '{$hoy}' AND tipo = 'Evento en línea';";
-                    }else{
+                    } else {
                         $query = "SELECT * FROM eventos WHERE finReg >= '{$hoy}' AND tipo <> 'Evento en línea';";
                     }
                 }
-                if(isset($_GET['idLugar'])){
+                if (isset($_GET['idLugar'])) {
                     $idL = intval($_GET['idLugar']);
                     $query = "SELECT * FROM eventos WHERE finReg >= '{$hoy}' AND lugar = {$idL}";
                 }
@@ -146,7 +151,7 @@
                             <div class=\"col s12 m6 l4\">
                                 <div class=\"card sticky-action\">
                                     <div class=\"card-image waves-effect waves-block waves-light\">
-                                        <img class=\"activator\" src=\"{$tupla['img']}\">
+                                    <img class=\"activator\" src=\"{$tupla['img']}\">
                                     </div>
                                     <div class=\"card-content\">
                                         <span class=\"card-title activator\">
