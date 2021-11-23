@@ -97,7 +97,7 @@
                 if (isset($_COOKIE['email']) && isset($_COOKIE['nombre'])) {
                     $nombre = strtok($_COOKIE['nombre'], " ");
                     echo "<li><a href=\"logout.php\">Cerrar sesión de {$nombre}</a></li>
-                        <li><a href=\"registerFiscales.php\">Registrar Datos fiscales</a></li>";
+                        <li><a href=\"registerFiscales.php\">Registrar datos fiscales</a></li>";
                 } else {
                     echo "<li><a href=\"login.html\">Iniciar sesión</a></li>";
                 }
@@ -108,7 +108,7 @@
             <?php
             if (isset($_COOKIE['email']) && isset($_COOKIE['nombre'])) {
                 echo "<li><a href=\"logout.php\" class=\"blue-text text-darken-4\">Cerrar sesión</a></li>
-                <li><a href=\"registerFiscales.php\" class=\"blue-text text-darken-4\">Registrar Datos fiscales</a></li>";
+                <li><a href=\"registerFiscales.php\" class=\"blue-text text-darken-4\">Registrar datos fiscales</a></li>";
             } else {
                 echo "<li><a href=\"login.html\" class=\"blue-text text-darken-4\">Iniciar sesión</a></li>";
             }
@@ -146,7 +146,10 @@
                         $query = "SELECT * FROM lugares INNER JOIN eventos ON lugares.id = {$row['lugar']};";
                         $registrosl = mysqli_query($conexion, $query);
                         $tupla = mysqli_fetch_array($registrosl); //tupla = lugar del evento
-                        //print_r($tupla);
+                        $query = "SELECT * FROM asistentes WHERE evento = {$row['id']};";
+                        $registrosAsis = mysqli_query($conexion, $query);
+                        $asis = mysqli_num_rows($registrosAsis);
+                        $lugaresDis = $row['cupo']-$asis;
                         echo "                       
                             <div class=\"col s12 m6 l4\">
                                 <div class=\"card sticky-action\">
@@ -169,7 +172,7 @@
                                             <li>Inicio de evento: {$row['inicioEv']}</li>
                                             <li>Fin de evento: {$row['inicioEv']}</li>
                                             <li>Fin de registro: {$row['finReg']}</li>
-                                            <!--<li>Lugar del evento: {$tupla['nombre']}</li>!-->
+                                            <li>Lugares disponibles: {$lugaresDis} de {$row['cupo']}</li> 
                                             <li>Tipo de evento: {$row['tipo']}</li>
                                             <li>Costo del evento: \${$row['costo']} MXN</li>
                                             <li>Descripción: {$row['info']}</li>

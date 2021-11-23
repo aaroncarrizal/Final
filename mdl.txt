@@ -19,7 +19,6 @@ CREATE TABLE coordinadores(
 );
 CREATE table lugares (
     nombre VARCHAR(50) NOT NULL,
-    cupo INT NOT NULL,
     techado BIT NOT NULL,
     id INT AUTO_INCREMENT NOT NULL,
     img VARCHAR(100),
