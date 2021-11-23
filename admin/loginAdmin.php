@@ -258,8 +258,8 @@
                     <h4>Soporte</h4>
                     <ul>
                         <h6>
-                            <li><a class="grey-text text-lighten-3" href="../faq.html">Preguntas frecuentes</a></li>
-                            <li><a class="grey-text text-lighten-3" href="../help.html">Solucitud de ayuda</a></li>
+                            <li><a class="grey-text text-lighten-3" href="../faq.php">Preguntas frecuentes</a></li>
+                            <li><a class="grey-text text-lighten-3" href="../help.php">Solucitud de ayuda</a></li>
                             <li><a class="grey-text text-lighten-3" href="../index.php">Sitio usuario</a></li>
                         </h6>
                     </ul>
