@@ -12,7 +12,7 @@
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <script src="https://kit.fontawesome.com/8c04a359e6.js" crossorigin="anonymous"></script>
-    <title>Registar Fiscales | UPSLP</title>
+    <title>Registrar Fiscales | UPSLP</title>
     <style>
         .section {
             padding-top: 4vw;
@@ -44,24 +44,16 @@
         /* label underline focus color */
         .row .input-field input:focus {
             border-bottom: 1px solid #0d47a1 !important;
-            box-shadow: 0 1px 0 0 #0d47a1 !important;
+            box-shadow: 0 1px 0 0 #0d47a1 !important
+        }
+        body {
+            display: flex;
+            min-height: 100vh;
+            flex-direction: column;
         }
 
-        .material-icons.active {
-            color: #0d47a1 !important;
-        }
-
-        .switch label input[type=checkbox]:checked+.lever:after {
-            background-color: #0d47a1 !important;
-        }
-
-        .switch label input[type=checkbox]:checked+.lever {
-            background-color: #1976d2 !important;
-        }
-
-        ul.dropdown-content.select-dropdown li span {
-            color: #0d47a1;
-            /* no need for !important :) */
+        main {
+            flex: 1 0 auto;
         }
     </style>
 </head>
@@ -82,12 +74,6 @@
                         <li><a class='dropdown-trigger btn' href="#" data-target='dropdown1' id="drop"><i class="right material-icons">account_circle</i>
                                 <?php
                                 if (isset($_COOKIE['email']) && isset($_COOKIE['nombre'])) {
-                                    $email = $_COOKIE['email'];
-                                    $nombre = $_COOKIE['nombre'];
-                                    setcookie('email', '', time() - 300); //5 mins
-                                    setcookie('nombre', '', time() - 300);
-                                    setcookie('email', $email, time() + 300); //5 mins
-                                    setcookie('nombre', $nombre, time() + 300);
                                     echo strtok($_COOKIE['nombre'], " ");
                                 }
                                 ?></a></li>
@@ -128,117 +114,114 @@
     <section class="container section scrollspy">
         <div class="row">
             <div class="col s12 m12 l12">
-                <?php
-                if (!isset($_COOKIE['email'])) {   //hay sesión iniciada?
-                    echo "<script>$('#form').hide()</script>";
-                    echo"
+            <?php
+                        //echo "aasdfadfasdf";
+                        if (isset($_COOKIE['email']) && isset($_POST['nombre']) && isset($_POST['rfc']) && isset($_POST['domicilio']) && isset($_POST['codigoP']) && isset($_POST['poblacion']) && isset($_POST['telefono']) && isset($_POST['email'])){
+                            require("config.php");
+                            echo"
                             <script>
                                 setTimeout(function(){
                                     window.location.href = 'index.php';
                                 }, 2000);
                             </script>
                             ";
-                        echo "
-                            <div class=\"col s12 m6 l6 offset-m3 offset-l3\">
-                                <div class=\"card\">
-                                    <div class=\"card-content center\">
-                                        <p class=\"flow-text\">Inicia sesión para poder registrar tus datos fiscales</p>
-                                        <i class=\"large material-icons\">sentiment_very_dissatisfied</i><br><br>
-                                        <div class=\"preloader-wrapper big active\">
-                                            <div class=\"spinner-layer spinner-blue-only\">
-                                                <div class=\"circle-clipper left\">
-                                                    <div class=\"circle\"></div>
-                                                </div>
-                                                <div class=\"gap-patch\">
-                                                    <div class=\"circle\"></div>
-                                                </div>
-                                                <div class=\"circle-clipper right\">
-                                                    <div class=\"circle\"></div>
+                            $conexion = mysqli_connect($host, $dbUser, $dbPass, $database) or die("Error en la conexion: " . mysqli_connect_error());
+                            if ($conexion) {
+                                mysqli_select_db($conexion, $database) or  die("Problemas en la selec. de BDs");
+                                $query = "SELECT 1 FROM fiscales WHERE usuario = '{$_COOKIE['email']}';";
+                                if ($registros = mysqli_query($conexion, $query)) {
+                                    $totalReg = mysqli_num_rows($registros);
+                                    if ($totalReg == 1) {
+                                        $query = "UPDATE fiscales SET 
+                                        nombre = '{$_POST['nombre']}', rfc = '{$_POST['rfc']}', domicilio = '{$_POST['domicilio']}', codigoP = {$_POST['codigoP']}, poblacion = '{$_POST['poblacion']}', telefono = '{$_POST['telefono']}', emailf = '{$_POST['email']}'
+                                        WHERE usuario = '{$_COOKIE['email']}';";
+                                        mysqli_query($conexion, $query) or die("Error");
+                                        echo "
+                                        <div class=\"col s12 m6 l6 offset-m3 offset-l3\">
+                                            <div class=\"card\">
+                                                <div class=\"card-content center\">
+                                                    <p class=\"flow-text\">Datos fiscales actualizados con éxito</p>
+                                                    <i class=\"large material-icons\">sentiment_very_satisfied</i><br><br>
+                                                    <div class=\"preloader-wrapper big active\">
+                                                        <div class=\"spinner-layer spinner-blue-only\">
+                                                            <div class=\"circle-clipper left\">
+                                                                <div class=\"circle\"></div>
+                                                            </div>
+                                                            <div class=\"gap-patch\">
+                                                                <div class=\"circle\"></div>
+                                                            </div>
+                                                            <div class=\"circle-clipper right\">
+                                                                <div class=\"circle\"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>";
-                    die();
-                }else{
-                    echo "<script>$('#form').show()</script>";
-                    
-                }
-                ?>
+                                        </div>";
+                                    }else{
+                                        $query = "INSERT INTO fiscales VALUES ('{$_COOKIE['email']}','{$_POST['nombre']}','{$_POST['rfc']}', '{$_POST['domicilio']}', {$_POST['codigoP']}, '{$_POST['poblacion']}', '{$_POST['telefono']}', '{$_POST['email']}')";
+                                        mysqli_query($conexion, $query) or die("Error");
+                                        echo "
+                                        <div class=\"col s12 m6 l6 offset-m3 offset-l3\">
+                                            <div class=\"card\">
+                                                <div class=\"card-content center\">
+                                                    <p class=\"flow-text\">Datos fiscales registrados con éxito</p>
+                                                    <i class=\"large material-icons\">sentiment_very_satisfied</i><br><br>
+                                                    <div class=\"preloader-wrapper big active\">
+                                                        <div class=\"spinner-layer spinner-blue-only\">
+                                                            <div class=\"circle-clipper left\">
+                                                                <div class=\"circle\"></div>
+                                                            </div>
+                                                            <div class=\"gap-patch\">
+                                                                <div class=\"circle\"></div>
+                                                            </div>
+                                                            <div class=\"circle-clipper right\">
+                                                                <div class=\"circle\"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>";
+                                    }
+                                }
+                                mysqli_close($conexion);
+                            }
+                        } else {
+                            echo"
+                            <script>
+                                setTimeout(function(){
+                                    window.location.href = 'index.php';
+                                }, 2000);
+                            </script>
+                            ";  
+                            echo "
+                                        <div class=\"col s12 m6 l6 offset-m3 offset-l3\">
+                                            <div class=\"card\">
+                                                <div class=\"card-content center\">
+                                                    <p class=\"flow-text\">Error en registro</p>
+                                                    <i class=\"large material-icons\">sentiment_very_dissatisfied</i><br><br>
+                                                    <div class=\"preloader-wrapper big active\">
+                                                        <div class=\"spinner-layer spinner-blue-only\">
+                                                            <div class=\"circle-clipper left\">
+                                                                <div class=\"circle\"></div>
+                                                            </div>
+                                                            <div class=\"gap-patch\">
+                                                                <div class=\"circle\"></div>
+                                                            </div>
+                                                            <div class=\"circle-clipper right\">
+                                                                <div class=\"circle\"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>";
+                        }
+                        ?>
             </div>
         </div>
-        <div class="row" id="form">
-            <div class="col s12 m6 l6 offset-m3 offset-l3">
-                <div class="card">
-                    <div class="card-content">
-                        <span class="card-title center" style="margin-top: 2vw;"><i class="large material-icons">account_balance</i>
-                            <h3 style="margin-top: 0;">Datos Fiscales</h3>
-                        </span>
-                        <!--form-->
-                        <form action="registerFiscales2.php" method="POST">
-                            <div class="row">
-                                <div class="input-field col s12">
-                                    <i class="material-icons prefix">face</i>
-                                    <input type="text" id="nombre" name="nombre" required>
-                                    <label for="nombre">Nombre fiscal</label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="input-field col s12">
-                                    <i class="material-icons prefix">badge</i>
-                                    <input type="text" id="rfc" name="rfc" required>
-                                    <label for="rfc">RFC</label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="input-field col s12">
-                                    <i class="material-icons prefix">home</i>
-                                    <input type="text" id="domicilio" name="domicilio" required>
-                                    <label for="domicilio">Domicilio</label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="input-field col s12">
-                                    <i class="material-icons prefix">markunread_mailbox</i>
-                                    <input type="number" id="codigoP" name="codigoP" required>
-                                    <label for="codigoP">Código postal</label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="input-field col s12">
-                                    <i class="material-icons prefix">location_city</i>
-                                    <input type="text" id="poblacion" name="poblacion" required>
-                                    <label for="poblacion">Población</label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="input-field col s12">
-                                    <i class="material-icons prefix">phone</i>
-                                    <input type="tel" id="telefono" name="telefono" required>
-                                    <label for="telefono">Télefono</label>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="input-field col s12">
-                                    <i class="material-icons prefix">email</i>
-                                    <input type="email" id="email" name="email" required>
-                                    <label for="email">Correo electrónico fiscal</label>
-                                </div>
-                            </div>
-                            
-                            <div class="row">
-                                <div class="input-field col s12 center">
-                                    <button class="btn waves-effect  blue darken-4" type="submit" name="action">
-                                        Registrar datos fiscales<i class="material-icons right">person_add_alt_1</i>
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+    
     </section>
     <!-- footer -->
     <footer class="page-footer orange darken-2">
