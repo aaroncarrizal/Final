@@ -61,3 +61,18 @@ CREATE TABLE fiscales(
     FOREIGN KEY (usuario) REFERENCES usuarios(email),
     PRIMARY KEY (usuario)
 );
+
+INSERT INTO `lugares`(`nombre`, `techado`, `img`) VALUES ('ASA principal','1','img/lugares/ASAprincipal.jpg'),
+('Sala de conferencias 1','1','img/lugares/SalaConferencias1.jpg'),
+('Sala de Conferencias 2','1','img/lugares/SalaConferencias2.jpg'),
+('Sala de Conferencias 2','1','img/lugares/SalaConferencias3.jpg'),
+('Campo de Futbol','0','img/lugares/CampoF.jpg'),
+('Campo de Futbol Americano','0','img/lugares/CampoFA.jpg'),
+('Cancha de Rápido 1','0','img/lugares/CanchaFBR1.jpg'),
+('Cancha de Rápido 2','0','img/lugares/CanchaFBR2.jpg'),
+('Cancha de Basketball 1','0','img/lugares/CanchaBasket1.jpg'),
+('Cancha de Basketball 2','0','img/lugares/CanchaBasket2.jpg'),
+('Cancha de Volleyball 1','0','img/lugares/CanchaVolley1.jpg'),
+('Cancha de Volleyball 2','0','img/lugares/CanchaVolley2.jpg'),
+('Explanada','0','img/lugares/Explanada.jpg');
+
