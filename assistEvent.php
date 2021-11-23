@@ -167,14 +167,116 @@
             }
             function asistirEvento($idEvento){
                 date_default_timezone_set("America/Mexico_City");
-                $hoy = date("Y-m-d h:i:s");
+                $hoy = strtotime(date("Y-m-d h:i:s"));
                 require("config.php");
                 $conexion = mysqli_connect($host, $dbUser, $dbPass, $database) or die("Error en la conexion: " . mysqli_connect_error());
                 if ($conexion) {
                     mysqli_select_db($conexion, $database) or  die("Problemas en la selec. de BDs");
-                    $query = "INSERT INTO asistentes VALUES ({$idEvento}, '{$_COOKIE['email']}');";
-                    if (mysqli_query($conexion, $query)) {
-                        echo "registrado";
+                    $query = "SELECT finReg FROM eventos WHERE id = {$idEvento}";
+                    if ($registros = mysqli_query($conexion, $query)) {
+                        while ($row = $registros->fetch_assoc()) { 
+                            $finReg = $row['finReg'];
+                            $finReg = strtotime($finReg);
+                        }
+                    }
+                    if($hoy > $finReg){
+                        echo"
+                    <script>
+                        setTimeout(function(){
+                            window.location.href = 'login.html';
+                        }, 2000);
+                    </script>
+                    ";
+                echo "
+                <div class=\"col s12 m6 l6 offset-m3 offset-l3\">
+                    <div class=\"card\">
+                        <div class=\"card-content center\">
+                            <p class=\"flow-text\">LA fecha de registo para este evento ya caducó</p>
+                            <i class=\"large material-icons\">sentiment_very_dissatisfied</i><br><br>
+                            <div class=\"preloader-wrapper big active\">
+                                <div class=\"spinner-layer spinner-blue-only\">
+                                    <div class=\"circle-clipper left\">
+                                        <div class=\"circle\"></div>
+                                    </div>
+                                    <div class=\"gap-patch\">
+                                        <div class=\"circle\"></div>
+                                    </div>
+                                    <div class=\"circle-clipper right\">
+                                        <div class=\"circle\"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>";
+                    }else{
+                        $query = "SELECT * FROM asistentes WHERE evento = {$idEvento} AND usuario = '{$_COOKIE['email']}';";
+                        if ($registros = mysqli_query($conexion, $query)) {
+                            $totalReg = mysqli_num_rows($registros);
+                            if ($totalReg > 0) {
+                                echo"
+                                <script>
+                                    setTimeout(function(){
+                                        window.location.href = 'index.php';
+                                    }, 2000);
+                                </script>
+                                ";
+                                echo "
+                                <div class=\"col s12 m6 l6 offset-m3 offset-l3\">
+                                    <div class=\"card\">
+                                        <div class=\"card-content center\">
+                                            <p class=\"flow-text\">Ya ahbías sido registrado en este evento</p>
+                                            <i class=\"large material-icons\">sentiment_very_dissatisfied</i><br><br>
+                                            <div class=\"preloader-wrapper big active\">
+                                                <div class=\"spinner-layer spinner-blue-only\">
+                                                    <div class=\"circle-clipper left\">
+                                                        <div class=\"circle\"></div>
+                                                    </div>
+                                                    <div class=\"gap-patch\">
+                                                        <div class=\"circle\"></div>
+                                                    </div>
+                                                    <div class=\"circle-clipper right\">
+                                                        <div class=\"circle\"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>";
+                            }else{
+                                $query = "INSERT INTO asistentes VALUES ({$idEvento}, '{$_COOKIE['email']}');";
+                                mysqli_query($conexion, $query) or die("Error en registro");
+                                echo"
+                                <script>
+                                    setTimeout(function(){
+                                        window.location.href = 'index.php';
+                                    }, 2000);
+                                </script>
+                                ";
+                                echo "
+                                <div class=\"col s12 m6 l6 offset-m3 offset-l3\">
+                                    <div class=\"card\">
+                                        <div class=\"card-content center\">
+                                            <p class=\"flow-text\">Registrado a este evento con éxito</p>
+                                            <i class=\"large material-icons\">sentiment_very_satisfied</i><br><br>
+                                            <div class=\"preloader-wrapper big active\">
+                                                <div class=\"spinner-layer spinner-blue-only\">
+                                                    <div class=\"circle-clipper left\">
+                                                        <div class=\"circle\"></div>
+                                                    </div>
+                                                    <div class=\"gap-patch\">
+                                                        <div class=\"circle\"></div>
+                                                    </div>
+                                                    <div class=\"circle-clipper right\">
+                                                        <div class=\"circle\"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>";
+                            }
+                        } 
                     }
                     mysqli_close($conexion);
                 }

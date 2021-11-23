@@ -144,9 +144,9 @@
                                     echo "<h3 class= \"center\">Usuario registrado con éxito<br></h3>";
                                     echo "<p class = \"flow-text\"
                                             <ul>
-                                                <li>e-mail: {$_POST['email']}</li>
-                                                <li>nombre: {$_POST['nombre']}</li>
-                                                <li>contraseña: {$_POST['pass']}</li>
+                                                <li>Email: {$_POST['email']}</li>
+                                                <li>Nombre: {$_POST['nombre']}</li>
+                                                <li>Contraseña: {$_POST['pass']}</li>
                                             </ul>
                                             </p>";
                                     setcookie('email', "{$_POST['email']}", time() + 300); //inicia sesión 

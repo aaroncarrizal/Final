@@ -222,6 +222,7 @@
                                 </div>
                             </div>
                         </div>";
+                        die();
                     }
                 } else {
                     echo"
