@@ -115,40 +115,15 @@
     <section class="container section scrollspy">
         <div class="row">
             <?php
-            $mensaje = "";
-            if (isset($_COOKIE['email'])) {
-                $mensaje = "
-                <div class=\"col s12 m6 l6 offset-m3 offset-l3\">
-                    <div class=\"card\">
-                        <div class=\"card-content center\">
-                            <p class=\"flow-text\">Bienvenido, {$_COOKIE['nombre']}</p>
-                            <i class=\"large material-icons\">sentiment_very_satisfied</i><br><br>
-                            <div class=\"preloader-wrapper big active\">
-                                <div class=\"spinner-layer spinner-blue-only\">
-                                    <div class=\"circle-clipper left\">
-                                        <div class=\"circle\"></div>
-                                    </div>
-                                    <div class=\"gap-patch\">
-                                        <div class=\"circle\"></div>
-                                    </div>
-                                    <div class=\"circle-clipper right\">
-                                        <div class=\"circle\"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>";
-            }
             if (isset($_POST['email']) && $_POST['email'] != "") {
                 if (isset($_POST['pass']) && $_POST['pass'] != "") {
-                    require("config.php");
+                    require("../config.php");
                     $email = $_POST['email'];
                     $pass = md5($_POST['pass']);
                     $conexion = mysqli_connect($host, $dbUser, $dbPass, $database) or die("Error en la conexion: " . mysqli_connect_error());
                     if ($conexion) {
                         mysqli_select_db($conexion, $database) or  die("Problemas en la selec. de BDs");
-                        $query = "SELECT * FROM usuarios WHERE email = '$email' AND pass = '$pass';";
+                        $query = "SELECT * FROM usuarios WHERE email = '$email' AND pass = '$pass' AND admin = 1;";
                         if ($registros = mysqli_query($conexion, $query)) {
                             $totalReg = mysqli_num_rows($registros);
                             if ($totalReg == 1) {
@@ -265,7 +240,7 @@
             echo "
                 <script>
                 setTimeout(function(){
-                window.location.href = 'index.php';
+                window.location.href = 'admin/admin.php';
                 }, 2000);
                 </script>
                             ";
@@ -294,7 +269,7 @@
                         <h6>
                             <li><a class="grey-text text-lighten-3" href="faq.html">Preguntas frecuentes</a></li>
                             <li><a class="grey-text text-lighten-3" href="help.html">Solucitud de ayuda</a></li>
-                            <li><a class="grey-text text-lighten-3" href="loginAdmin.html">Sitio administrador</a></li>
+                            <li><a class="grey-text text-lighten-3" href="admin/loginAdmin.html">Sitio administrador</a></li>
                         </h6>
                     </ul>
                 </div>

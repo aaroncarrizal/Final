@@ -271,7 +271,7 @@
                         <h6>
                             <li><a class="grey-text text-lighten-3" href="faq.html">Preguntas frecuentes</a></li>
                             <li><a class="grey-text text-lighten-3" href="help.html">Solucitud de ayuda</a></li>
-                            <li><a class="grey-text text-lighten-3" href="loginAdmin.html">Sitio administrador</a></li>
+                            <li><a class="grey-text text-lighten-3" href="admin/loginAdmin.html">Sitio administrador</a></li>
                         </h6>
                     </ul>
                 </div>
