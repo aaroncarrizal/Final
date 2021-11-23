@@ -225,7 +225,7 @@
                                 <div class=\"col s12 m6 l6 offset-m3 offset-l3\">
                                     <div class=\"card\">
                                         <div class=\"card-content center\">
-                                            <p class=\"flow-text\">Ya ahbías sido registrado en este evento</p>
+                                            <p class=\"flow-text\">Ya habías sido registrado en este evento</p>
                                             <i class=\"large material-icons\">sentiment_very_dissatisfied</i><br><br>
                                             <div class=\"preloader-wrapper big active\">
                                                 <div class=\"spinner-layer spinner-blue-only\">
