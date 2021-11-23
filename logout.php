@@ -121,7 +121,13 @@
                             echo "<h3 class=\"center\"> ¡Hasta luego, {$_COOKIE['nombre']}! </h3>";
                             setcookie('email', "", time() - 300); //elimina la cookie 
                             setcookie('nombre', "", time() - 300);
-                            
+                            echo"
+                            <script>
+                                setTimeout(function(){
+                                    window.location.href = 'index.php';
+                                }, 2000);
+                            </script>
+                            ";
                         }
                         ?>
 
