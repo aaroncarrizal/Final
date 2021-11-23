@@ -55,7 +55,7 @@
         <div class="navbar-fixed">
             <nav class="nav-wrapper blue darken-4">
                 <div class="container">
-                    <a href="index.php" class="brand-logo"><img class="responsive-img" src="img/logo.png" style="margin-top: 10%;" id="logonav"></a>
+                    <a href="../index.php" class="brand-logo"><img class="responsive-img" src="../img/logo.png" style="margin-top: 10%;" id="logonav"></a>
                     <a href="#" class="sidenav-trigger" data-target="mobile-menu">
                         <i class="material-icons">menu</i>
                     </a>
@@ -90,7 +90,7 @@
                             <h3 style="margin-top: 0;">Iniciar sesión</h3>
                         </span>
                         <!--form-->
-                        <form action="admin/loginAdmin.php" method="POST">
+                        <form action="loginAdmin.php" method="POST">
                             <div class="row">
                                 <div class="input-field col s12">
                                     <i class="material-icons prefix">email</i>
@@ -140,7 +140,7 @@
                         <h6>
                             <li><a class="grey-text text-lighten-3" href="faq.html">Preguntas frecuentes</a></li>
                             <li><a class="grey-text text-lighten-3" href="help.html">Solucitud de ayuda</a></li>
-                            <li><a class="grey-text text-lighten-3" href="admin/loginAdmin.html">Sitio administrador</a></li>
+                            <li><a class="grey-text text-lighten-3" href="loginAdmin.html">Sitio administrador</a></li>
                         </h6>
                     </ul>
                 </div>
@@ -167,7 +167,9 @@
         });
     </script>
     <script>
-
+        if(document.cookie.match("admin")){
+            window.location.href = 'admin.php';
+        }
     </script>
 </body>
 

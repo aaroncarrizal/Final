@@ -65,7 +65,7 @@
         <div class="navbar-fixed">
             <nav class="nav-wrapper blue darken-4">
                 <div class="container">
-                    <a href="index.php" class="brand-logo"><img class="responsive-img" src="img/logo.png" style="margin-top: 10%;" id="logonav"></a>
+                    <a href="admin.php" class="brand-logo"><img class="responsive-img" src="../img/logo.png" style="margin-top: 10%;" id="logonav"></a>
                     <a href="#" class="sidenav-trigger" data-target="mobile-menu">
                         <i class="material-icons">menu</i>
                     </a>
@@ -133,12 +133,13 @@
                                 setcookie('nombre', "", time() - 300);
                                 setcookie('email', $email, time() + 300); //5 mins
                                 setcookie('nombre', $nombre, time() + 300);
+                                setcookie('admin',true,time() + 300);
                                 //print_r($_COOKIE);
                                 $mensaje = "
                                 <div class=\"col s12 m6 l6 offset-m3 offset-l3\">
                                     <div class=\"card\">
                                         <div class=\"card-content center\">
-                                            <p class=\"flow-text\">Bienvenido, {$_COOKIE['nombre']}</p>
+                                            <p class=\"flow-text\">Bienvenido</p>
                                             <i class=\"large material-icons\">sentiment_very_satisfied</i><br><br>
                                             <div class=\"preloader-wrapper big active\">
                                                 <div class=\"spinner-layer spinner-blue-only\">
@@ -240,7 +241,7 @@
             echo "
                 <script>
                 setTimeout(function(){
-                window.location.href = 'admin/admin.php';
+                window.location.href = 'admin.php';
                 }, 2000);
                 </script>
                             ";
@@ -269,7 +270,7 @@
                         <h6>
                             <li><a class="grey-text text-lighten-3" href="faq.html">Preguntas frecuentes</a></li>
                             <li><a class="grey-text text-lighten-3" href="help.html">Solucitud de ayuda</a></li>
-                            <li><a class="grey-text text-lighten-3" href="admin/loginAdmin.html">Sitio administrador</a></li>
+                            <li><a class="grey-text text-lighten-3" href="../index.php">Sitio usuario</a></li>
                         </h6>
                     </ul>
                 </div>
