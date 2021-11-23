@@ -114,11 +114,9 @@
     </header>
     <section class="container section scrollspy">
         <div class="row">
-            <h1>Eventos cronológicamente</h1>
-        </div>
-        <div class="row">
             <?php
             if (isset($_COOKIE['admin']) && isset($_COOKIE['email'])) {
+                $id = $_GET['idEvento'];
                 $email = $_COOKIE['email'];
                 $nombre = $_COOKIE['nombre'];
                 setcookie('email', $email, time() + 600); //10 mins
@@ -127,59 +125,74 @@
                 require("../config.php");
                 $conexion = mysqli_connect($host, $dbUser, $dbPass, $database) or die("Error en la conexion: " . mysqli_connect_error());
                 if ($conexion) {
+                    mysqli_select_db($conexion, $database) or  die("Problemas en la selec. de BDs");
+                    $query = "SELECT * FROM eventos WHERE id = {$_GET['idEvento']}";
+                    if ($registrosE = mysqli_query($conexion, $query)) {
+                        while ($row = $registrosE->fetch_assoc()) { //row = eventos
+                            echo "
+                                <div class=\"row\">
+                                    <h1>Asistencia de {$row['nombre']}</h1>
+                                </div>
+                            ";
+                            $cupo = $row['cupo'];
+                        }
+                    }
                     echo "
                         <table class=\"responsive-table\">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
+                                    <th>Email</th>
                                     <th>Nombre</th>
-                                    <th>Coordinador</th>
-                                    <th>Lugar</th>
-                                    <th>Inicio evento</th>
-                                    <th>Fin evento</th>
-                                    <th>Inicio Registro</th>
-                                    <th>Fin Registro</th>
-                                    <th>Cupo</th>
-                                    <th>Costo</th>
-                                    <th>Tipo</th>
-                                    <th></th>
+                                    <th>Interno</th>
+                                    <th>Matrícula</th>
+                                    <th>Carrera</th>            
                                 </tr>
                             </thead>
                             <tbody>
-                            ";
-                            mysqli_select_db($conexion, $database) or  die("Problemas en la selec. de BDs");
-                            $query = "SELECT * FROM eventos ORDER BY inicioEv;";
-                            if ($registros = mysqli_query($conexion, $query)) {
-                                while ($row = $registros->fetch_assoc()) { //row = eventos
-                                    $query = "SELECT * FROM eventos INNER JOIN lugares ON lugares.id = eventos.lugar;";
-                                    $registrosl = mysqli_query($conexion, $query);
-                                    $lugar = $registrosl->fetch_assoc();
-                                    $query = "SELECT * FROM eventos INNER JOIN coordinadores ON coordinadores.id = eventos.coordinador;";
-                                    $registrosU = mysqli_query($conexion, $query);
-                                    $coordinador = $registrosU->fetch_assoc();
-                                    echo "
-                                            <tr>
-                                                <td>{$row['id']}</td>
-                                                <td>{$row['nombre']}</td>
-                                                <td>{$coordinador['usuario']}</td>
-                                                <td>{$lugar['nombre']}</td>
-                                                <td>{$row['inicioEv']}</td>
-                                                <td>{$row['finEv']}</td>
-                                                <td>{$row['inicioReg']}</td>
-                                                <td>{$row['finReg']}</td>
-                                                <td>{$row['cupo']}</td>
-                                                <td>\${$row['costo']} MXN</td>
-                                                <td>{$row['tipo']}</td>
-                                                <td><a class=\"waves-effect waves-light btn-small orange darken-2\" href=\"viewAssistance.php?idEvento={$row['id']}\"><i class=\"material-icons right\">visibility</i>Ver asistentes/a></td> 
-                                            </tr>
-                                                ";
-                                }
-                            }
-                }
-                echo "
-                            </tbody>
-                        </table class=\"responsive-table\">
                     ";
+                    $query = "SELECT * FROM usuarios INNER JOIN asistentes ON usuarios.email = asistentes.usuario AND asistentes.evento = {$id};";
+                    if ($registros = mysqli_query($conexion, $query)) {
+                        while ($row = $registros->fetch_assoc()) { //row = eventos
+                            
+                            echo "
+                                <tr>
+                                    <td>{$row['email']}</td>
+                                    <td>{$row['nombre']}</td>
+                            ";
+                            if($row['interno'] == 1){
+                                echo "<td><i class=\"material-icons\">check</i></td>";
+                            }else{
+                                echo "<td><i class=\"material-icons\">clear</i></td>";
+                            }
+                            echo"
+                                    <td>{$row['matricula']}</td>
+                                    <td>{$row['carrera']}</td>
+                                    
+                                </tr>
+                            ";
+                        }
+                    }
+                    echo "
+                            </tbody>
+                        </table>
+                    ";
+                    $lugOcupados = mysqli_num_rows($registros);
+                    $lugDisponibles = $cupo - $lugOcupados;
+                    echo"
+                    <div class=\"row center\">
+                    <br><br>
+                        <h3>Quedan {$lugDisponibles} lugares disponibles</h3>
+                    </div>
+                        ";
+                    echo"
+                    <div class=\"row center\">
+                    <br><br>
+                        <a class=\"waves-effect waves-light btn-large orange darken-2\" href=\"assistancePDF.php?idEvento={$id}\"><i class=\"material-icons right\">search</i>Genera PDF</a>
+                    </div>
+                        ";
+                    
+                    mysqli_close($conexion);
+                }
             } else {
                 echo "
                         <div class=\"col s12 m6 l6 offset-m3 offset-l3\">
@@ -212,138 +225,6 @@
                             ";
                 die();
             }
-            ?>
-        </div>
-        <div class="divider"></div>
-        <div class="row">
-            <h1>Eventos activos</h1>
-        </div>
-        <div class="row">
-            <?php
-            require("../config.php");
-            $conexion = mysqli_connect($host, $dbUser, $dbPass, $database) or die("Error en la conexion: " . mysqli_connect_error());
-            if ($conexion) {
-                echo "
-                        <table class=\"responsive-table\">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Nombre</th>
-                                    <th>Coordinador</th>
-                                    <th>Lugar</th>
-                                    <th>Inicio evento</th>
-                                    <th>Fin evento</th>
-                                    <th>Inicio Registro</th>
-                                    <th>Fin Registro</th>
-                                    <th>Cupo</th>
-                                    <th>Costo</th>
-                                    <th>Tipo</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            ";
-                mysqli_select_db($conexion, $database) or  die("Problemas en la selec. de BDs");
-                date_default_timezone_set("America/Mexico_City");
-                $hoy = date("Y-m-d h:i:s");
-                $query = "SELECT * FROM eventos WHERE finReg >= '{$hoy}' ORDER BY id;";
-                if ($registros = mysqli_query($conexion, $query)) {
-                    while ($row = $registros->fetch_assoc()) { //row = eventos
-                        $query = "SELECT * FROM eventos INNER JOIN lugares ON lugares.id = eventos.lugar;";
-                        $registrosl = mysqli_query($conexion, $query);
-                        $lugar = $registrosl->fetch_assoc();
-                        $query = "SELECT * FROM eventos INNER JOIN coordinadores ON coordinadores.id = eventos.coordinador;";
-                        $registrosU = mysqli_query($conexion, $query);
-                        $coordinador = $registrosU->fetch_assoc();
-                        echo "
-                        <tr>
-                            <td>{$row['id']}</td>
-                            <td>{$row['nombre']}</td>
-                            <td>{$coordinador['usuario']}</td>
-                            <td>{$lugar['nombre']}</td>
-                            <td>{$row['inicioEv']}</td>
-                            <td>{$row['finEv']}</td>
-                            <td>{$row['inicioReg']}</td>
-                            <td>{$row['finReg']}</td>
-                            <td>{$row['cupo']}</td>
-                            <td>\${$row['costo']} MXN</td>
-                            <td>{$row['tipo']}</td>
-                            <td><a class=\"waves-effect waves-light btn-small orange darken-2\" href=\"viewAssistance.php?idEvento={$row['id']}\"><i class=\"material-icons right\">visibility</i>Ver asistentes/a></td> 
-                        </tr>
-                            ";
-                    }
-                }
-            }
-            echo "
-                            </tbody>
-                        </table class=\"responsive-table\">
-                    ";
-            ?>
-        </div>
-        <div class="divider"></div>
-        <div class="row">
-            <h1>Eventos concluidos</h1>
-        </div>
-        <div class="row">
-            <?php
-            require("../config.php");
-            $conexion = mysqli_connect($host, $dbUser, $dbPass, $database) or die("Error en la conexion: " . mysqli_connect_error());
-            if ($conexion) {
-                echo "
-                        <table class=\"responsive-table\">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Nombre</th>
-                                    <th>Coordinador</th>
-                                    <th>Lugar</th>
-                                    <th>Inicio evento</th>
-                                    <th>Fin evento</th>
-                                    <th>Inicio Registro</th>
-                                    <th>Fin Registro</th>
-                                    <th>Cupo</th>
-                                    <th>Costo</th>
-                                    <th>Tipo</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            ";
-                mysqli_select_db($conexion, $database) or  die("Problemas en la selec. de BDs");
-                date_default_timezone_set("America/Mexico_City");
-                $hoy = date("Y-m-d h:i:s");
-                $query = "SELECT * FROM eventos WHERE finReg < '{$hoy}' ORDER BY inicioEV;";
-                if ($registros = mysqli_query($conexion, $query)) {
-                    while ($row = $registros->fetch_assoc()) { //row = eventos
-                        $query = "SELECT * FROM eventos INNER JOIN lugares ON lugares.id = eventos.lugar;";
-                        $registrosl = mysqli_query($conexion, $query);
-                        $lugar = $registrosl->fetch_assoc();
-                        $query = "SELECT * FROM eventos INNER JOIN coordinadores ON coordinadores.id = eventos.coordinador;";
-                        $registrosU = mysqli_query($conexion, $query);
-                        $coordinador = $registrosU->fetch_assoc();
-                        echo "
-                        <tr>
-                            <td>{$row['id']}</td>
-                            <td>{$row['nombre']}</td>
-                            <td>{$coordinador['usuario']}</td>
-                            <td>{$lugar['nombre']}</td>
-                            <td>{$row['inicioEv']}</td>
-                            <td>{$row['finEv']}</td>
-                            <td>{$row['inicioReg']}</td>
-                            <td>{$row['finReg']}</td>
-                            <td>{$row['cupo']}</td>
-                            <td>\${$row['costo']} MXN</td>
-                            <td>{$row['tipo']}</td>
-                            <td><a class=\"waves-effect waves-light btn-small orange darken-2\" href=\"viewAssistance.php?idEvento={$row['id']}\"><i class=\"material-icons right\">visibility</i>Ver asistentes/a></td> 
-                        </tr>
-                        ";
-                    }
-                }
-            }
-            echo "
-                            </tbody>
-                        </table class=\"responsive-table\">
-                    ";
             ?>
         </div>
     </section>
