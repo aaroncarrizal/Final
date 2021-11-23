@@ -159,11 +159,12 @@
                                 setcookie('email', $email, time() + 300); //5 mins
                                 setcookie('nombre', $nombre, time() + 300);
                                 //print_r($_COOKIE);
+                                $nombre = strtok($tupla['nombre'], " ");
                                 $mensaje = "
                                 <div class=\"col s12 m6 l6 offset-m3 offset-l3\">
                                     <div class=\"card\">
                                         <div class=\"card-content center\">
-                                            <p class=\"flow-text\">Bienvenido, {$_COOKIE['nombre']}</p>
+                                            <p class=\"flow-text\">Bienvenido, {$nombre}</p>
                                             <i class=\"large material-icons\">sentiment_very_satisfied</i><br><br>
                                             <div class=\"preloader-wrapper big active\">
                                                 <div class=\"spinner-layer spinner-blue-only\">
