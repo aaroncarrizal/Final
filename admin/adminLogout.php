@@ -12,7 +12,7 @@
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <script src="https://kit.fontawesome.com/8c04a359e6.js" crossorigin="anonymous"></script>
-    <title>Sitio administrador | UPSLP</title>
+    <title>Cerrar sesión | UPSLP</title>
     <style>
         .section {
             padding-top: 4vw;
@@ -46,7 +46,6 @@
             border-bottom: 1px solid #0d47a1 !important;
             box-shadow: 0 1px 0 0 #0d47a1 !important
         }
-
         body {
             display: flex;
             min-height: 100vh;
@@ -104,118 +103,28 @@
     </header>
     <section class="container section scrollspy">
         <div class="row">
-            <?php
-            if (isset($_COOKIE['admin']) && isset($_COOKIE['email'])) {
-                $id = $_GET['idEvento'];
-                $email = $_COOKIE['email'];
-                $nombre = $_COOKIE['nombre'];
-                setcookie('email', $email, time() + 600); //10 mins
-                setcookie('nombre', $nombre, time() + 600);
-                setcookie('admin', true, time() + 600);
-                require("../config.php");
-                $conexion = mysqli_connect($host, $dbUser, $dbPass, $database) or die("Error en la conexion: " . mysqli_connect_error());
-                if ($conexion) {
-                    mysqli_select_db($conexion, $database) or  die("Problemas en la selec. de BDs");
-                    $query = "SELECT * FROM eventos WHERE id = {$_GET['idEvento']}";
-                    if ($registrosE = mysqli_query($conexion, $query)) {
-                        while ($row = $registrosE->fetch_assoc()) { //row = eventos
-                            echo "
-                                <div class=\"row\">
-                                    <h1>Asistencia de {$row['nombre']}</h1>
-                                </div>
-                            ";
-                            $cupo = $row['cupo'];
-                        }
-                    }
-                    echo "
-                        <table class=\"responsive-table\">
-                            <thead>
-                                <tr>
-                                    <th>Email</th>
-                                    <th>Nombre</th>
-                                    <th>Interno</th>
-                                    <th>Matrícula</th>
-                                    <th>Carrera</th>            
-                                </tr>
-                            </thead>
-                            <tbody>
-                    ";
-                    $query = "SELECT * FROM usuarios INNER JOIN asistentes ON usuarios.email = asistentes.usuario AND asistentes.evento = {$id};";
-                    if ($registros = mysqli_query($conexion, $query)) {
-                        while ($row = $registros->fetch_assoc()) { //row = eventos
-                            
-                            echo "
-                                <tr>
-                                    <td>{$row['email']}</td>
-                                    <td>{$row['nombre']}</td>
-                            ";
-                            if($row['interno'] == 1){
-                                echo "<td><i class=\"material-icons\">check</i></td>";
-                            }else{
-                                echo "<td><i class=\"material-icons\">clear</i></td>";
-                            }
+            <div class="col s12 m6 l6 offset-m3 offset-l3">
+                <div class="card">
+                    <div class="card-content">
+                        <?php
+                        if(isset($_COOKIE['nombre']) && isset($_COOKIE['email'])){
+                            echo "<h3 class=\"center\"> ¡Hasta luego, {$_COOKIE['nombre']}! </h3>";
+                            setcookie('email', "", time() - 600); //elimina la cookie 
+                            setcookie('nombre', "", time() - 600);
+                            setcookie('admin',"".time() - 600);
                             echo"
-                                    <td>{$row['matricula']}</td>
-                                    <td>{$row['carrera']}</td>
-                                    
-                                </tr>
+                            <script>
+                                setTimeout(function(){
+                                    window.location.href = '../index.php';
+                                }, 2000);
+                            </script>
                             ";
                         }
-                    }
-                    echo "
-                            </tbody>
-                        </table>
-                    ";
-                    $lugOcupados = mysqli_num_rows($registros);
-                    $lugDisponibles = $cupo - $lugOcupados;
-                    echo"
-                    <div class=\"row center\">
-                    <br><br>
-                        <h3>Quedan {$lugDisponibles} lugares disponibles</h3>
+                        ?>
+
                     </div>
-                        ";
-                    echo"
-                    <div class=\"row center\">
-                    <br><br>
-                        <a class=\"waves-effect waves-light btn-large orange darken-2\" href=\"assistancePDF.php?idEvento={$id}\"><i class=\"material-icons right\">search</i>Genera PDF</a>
-                    </div>
-                        ";
-                    
-                    mysqli_close($conexion);
-                }
-            } else {
-                echo "
-                        <div class=\"col s12 m6 l6 offset-m3 offset-l3\">
-                            <div class=\"card\">
-                                <div class=\"card-content center\">
-                                    <p class=\"flow-text\">Usuario Inválido</p>
-                                    <i class=\"large material-icons\">sentiment_very_dissatisfied</i><br><br>
-                                    <div class=\"preloader-wrapper big active\">
-                                        <div class=\"spinner-layer spinner-blue-only\">
-                                            <div class=\"circle-clipper left\">
-                                                <div class=\"circle\"></div>
-                                            </div>
-                                            <div class=\"gap-patch\">
-                                                <div class=\"circle\"></div>
-                                            </div>
-                                            <div class=\"circle-clipper right\">
-                                                <div class=\"circle\"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>";
-                echo "
-                        <script>
-                        setTimeout(function(){
-                        window.location.href = 'loginAdmin.html';
-                        }, 2000);
-                        </script>
-                            ";
-                die();
-            }
-            ?>
+                </div>
+            </div>
         </div>
     </section>
     <!-- footer -->

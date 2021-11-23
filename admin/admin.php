@@ -70,8 +70,6 @@
                         <i class="material-icons">menu</i>
                     </a>
                     <ul class="right hide-on-med-and-down">
-                        <li><a href="searchEvent.php?enLinea=true">Eventos en línea</a></li>
-                        <li><a href="searchEvent.php?enLinea=false">Eventos presenciales</a></li>
                         <li><a class='dropdown-trigger btn' href="#" data-target='dropdown1' id="drop"><i class="right material-icons">account_circle</i>
                                 <?php
                                 if (isset($_COOKIE['email']) && isset($_COOKIE['nombre'])) {
@@ -84,17 +82,12 @@
         </div>
         <!--sidenav-->
         <ul class="sidenav grey lighten-2" id="mobile-menu">
-            <li><a href="searchEvent.php?enLinea=true">Eventos en línea</a></li>
-            <<li><a href="searchEvent.php?enLinea=false">Eventos presenciales</a></li>
-                <li><a href="createEvent.php">Crear un evento</a></li>
-                <li><a href="searchEvent.php">Buscar un evento</a></li>
                 <?php
                 if (isset($_COOKIE['email']) && isset($_COOKIE['nombre'])) {
                     $nombre = strtok($_COOKIE['nombre'], " ");
-                    echo "<li><a href=\"logout.php\">Cerrar sesión de {$nombre}</a></li>
-                        <li><a href=\"registerFiscales.php\">Registrar datos fiscales</a></li>";
+                    echo "<li><a href=\"adminLogout.php\">Cerrar sesión de {$nombre}</a></li>";
                 } else {
-                    echo "<li><a href=\"login.html\">Iniciar sesión</a></li>";
+                    echo "<li><a href=\"adminLogin.html\">Iniciar sesión</a></li>";
                 }
                 ?>
         </ul>
@@ -102,14 +95,11 @@
         <ul id='dropdown1' class='dropdown-content'>
             <?php
             if (isset($_COOKIE['email']) && isset($_COOKIE['nombre'])) {
-                echo "<li><a href=\"logout.php\" class=\"blue-text text-darken-4\">Cerrar sesión</a></li>
-                <li><a href=\"registerFiscales.php\" class=\"blue-text text-darken-4\">Registrar datos fiscales</a></li>";
+                echo "<li><a href=\"adminLogout.php\" class=\"blue-text text-darken-4\">Cerrar sesión</a></li>";
             } else {
-                echo "<li><a href=\"login.html\" class=\"blue-text text-darken-4\">Iniciar sesión</a></li>";
+                echo "<li><a href=\"adminLogin.html\" class=\"blue-text text-darken-4\">Iniciar sesión</a></li>";
             }
             ?>
-            <li><a href="searchEvent.php" class="blue-text text-darken-4">Buscar evento</a></li>
-            <li><a href="createEvent.php" class="blue-text text-darken-4">Crear evento</a></li>
         </ul>
     </header>
     <section class="container section scrollspy">
@@ -367,8 +357,8 @@
                     <h4>Soporte</h4>
                     <ul>
                         <h6>
-                            <li><a class="grey-text text-lighten-3" href="faq.html">Preguntas frecuentes</a></li>
-                            <li><a class="grey-text text-lighten-3" href="help.html">Solucitud de ayuda</a></li>
+                            <li><a class="grey-text text-lighten-3" href="../faq.html">Preguntas frecuentes</a></li>
+                            <li><a class="grey-text text-lighten-3" href="../help.html">Solucitud de ayuda</a></li>
                             <li><a class="grey-text text-lighten-3" href="../index.php">Sitio usuario</a></li>
                         </h6>
                     </ul>
